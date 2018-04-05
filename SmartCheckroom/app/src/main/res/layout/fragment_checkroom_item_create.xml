@@ -1,0 +1,110 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:stretchColumns="1"
+    tools:context="parkettklub.smartcheckroom.fragments.CheckroomItemCreateFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/firstRow"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:text="@string/barcode"
+            android:layout_width="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/barcodeNumber"
+            android:textSize="20dp"
+            android:width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+             />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/secondRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/firstRow"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="@string/checkroom" />
+
+        <Spinner
+            android:id="@+id/checkroomNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/thirdRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/secondRow"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        >
+
+        <Button
+            android:id="@+id/btnCoatPlus"
+            android:layout_width="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="+"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btnCoatImage"
+            android:text="Coat"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"/>
+        <Button
+            android:id="@+id/btnCoatMinus"
+            android:text="-"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/thirdRow"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        >
+
+        <Button
+            android:id="@+id/btnCreateCheckroomItem"
+            android:text="@string/btnAdd"
+            android:layout_width="100dp"
+            android:layout_alignParentLeft="true"
+            android:layout_height="70dp" />
+
+        <Button
+            android:id="@+id/btnCancelCreateCheckroomItem"
+            android:layout_width="100dp"
+            android:layout_height="70dp"
+            android:layout_alignParentRight="true"
+            android:text="@string/btnCancel" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
+
+

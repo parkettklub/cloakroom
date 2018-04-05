@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">SmartCheckroom</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_camera_fragment">Hello Camera fragment</string>
+    <string name="hello_manual_fragment">Hello Manual fragment</string>
+    <string name="add">ADD</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="barcode">Barcode Number</string>
+    <string name="checkroom">Checkroom Number</string>
+    <string name="btnAdd">Add</string>
+    <string name="btnCancel">Cancel</string>
+</resources>
