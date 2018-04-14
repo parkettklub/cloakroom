@@ -1,15 +1,16 @@
 package parkettklub.smartcheckroom.fragments;
 
+/**
+ * Created by Badbeloved on 2018. 04. 14..
+ */
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,11 +29,13 @@ import parkettklub.smartcheckroom.data.ManageDB;
 public class CheckroomItemCreateFragment extends DialogFragment {
 
     // Log tag
-    public static final String TAG = "TodoCreateFragment";
+    public static final String TAG = "CheckroomItemCreateFragment";
 
     // UI
     private TextView editBarcodeNumber;
     private Spinner spnrCheckroomItemNumber;
+
+    private TextView editCoatNumber;
     private Button incCoat;
     private Button decCoat;
 
@@ -41,12 +44,9 @@ public class CheckroomItemCreateFragment extends DialogFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
-    private String mParam2;
-
 
     public CheckroomItemCreateFragment() {
         // Required empty public constructor
@@ -57,15 +57,13 @@ public class CheckroomItemCreateFragment extends DialogFragment {
      * this fragment using the provided parameters.
      *
      * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment CheckroomItemCreateFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CheckroomItemCreateFragment newInstance(String param1, String param2) {
+    public static CheckroomItemCreateFragment newInstance(String param1) {
         CheckroomItemCreateFragment fragment = new CheckroomItemCreateFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -75,7 +73,6 @@ public class CheckroomItemCreateFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -105,19 +102,24 @@ public class CheckroomItemCreateFragment extends DialogFragment {
 
         coatNum = 0;
 
+        editCoatNumber = (TextView) root.findViewById(R.id.coatNum);
+        editCoatNumber.setText("0");
+
         incCoat = (Button) root.findViewById(R.id.btnCoatPlus);
         incCoat.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 coatNum++;
+                editCoatNumber.setText(coatNum.toString());
             }
         });
 
-        decCoat = (Button) root.findViewById(R.id.btnCoatPlus);
+        decCoat = (Button) root.findViewById(R.id.btnCoatMinus);
         decCoat.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(coatNum != 0)
                 {
                     coatNum--;
+                    editCoatNumber.setText(coatNum.toString());
                 }
             }
         });
@@ -144,14 +146,14 @@ public class CheckroomItemCreateFragment extends DialogFragment {
                 Toast.makeText(getContext(), String.valueOf(item.getId()), Toast.LENGTH_LONG).show();
 
 
-                dismiss();
+                getActivity().finish();
             }
         });
 
         Button btnCancel = (Button) root.findViewById(R.id.btnCancelCreateCheckroomItem);
         btnCancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                dismiss();
+                getActivity().finish();
             }
         });
 

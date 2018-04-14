@@ -1,6 +1,7 @@
 package parkettklub.smartcheckroom.fragments;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
@@ -23,6 +24,8 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
 
+import parkettklub.smartcheckroom.ItemCreateActivity;
+import parkettklub.smartcheckroom.ItemHandlingActivity;
 import parkettklub.smartcheckroom.R;
 import parkettklub.smartcheckroom.barcode.CameraSourcePreview;
 import parkettklub.smartcheckroom.data.ManageDB;
@@ -106,25 +109,27 @@ public class CameraFragment extends Fragment {
 
                     /* TODO: to be continued
                     Intent i = new Intent(getContext(), AboutActivity.class);
-                    startActivity(i);
+                    startActivity(i);o.n
                     */
-                    if(!lastBarcode.equals(barcodes.valueAt(0).displayValue)) {
 
-                        lastBarcode = barcodes.valueAt(0).displayValue;
+                    lastBarcode = barcodes.valueAt(0).displayValue;
 
-                        if (ManageDB.getInstance().findItem(barcodes.valueAt(0).displayValue)) {
-                            Toast.makeText(getContext(), "Deleted", Toast.LENGTH_LONG).show();
-                        } else {
-                        /*
-                        ManageDB.getInstance().createNewDayItem(barCode);
-                        Toast.makeText(getContext(), "Added", Toast.LENGTH_LONG).show();
-                        */
-                            CheckroomItemCreateFragment createFragment =
-                                    CheckroomItemCreateFragment.newInstance(barcodes.valueAt(0).displayValue, "meeh");
-                            android.support.v4.app.FragmentManager fm = getFragmentManager();
-                            createFragment.show(fm, CheckroomItemCreateFragment.TAG);
-                        }
-                    }
+                    /*
+                    ManageDB.getInstance().createNewDayItem(barCode);
+                    Toast.makeText(getContext(), "Added", Toast.LENGTH_LONG).show();
+                    */
+                    /*
+                    CheckroomItemCreateFragment createFragment =
+                            CheckroomItemCreateFragment.newInstance(barcodes.valueAt(0).displayValue, "meeh");
+                    android.support.v4.app.FragmentManager fm = getFragmentManager();
+                    createFragment.show(fm, CheckroomItemCreateFragment.TAG);
+                    */
+                    Intent i = new Intent();
+                    //i.setClass(getActivity(), ItemCreateActivity.class);
+                    i.setClass(getActivity(), ItemHandlingActivity.class);
+                    i.putExtra("KEY_BARCODE_NUMBER", barcodes.valueAt(0).displayValue);
+                    startActivity(i);
+
 
 
 

@@ -14,6 +14,8 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 
+import parkettklub.smartcheckroom.ItemCreateActivity;
+import parkettklub.smartcheckroom.ItemHandlingActivity;
 import parkettklub.smartcheckroom.R;
 import parkettklub.smartcheckroom.data.CheckroomItem;
 import parkettklub.smartcheckroom.data.ManageDB;
@@ -166,20 +168,22 @@ public class ManualFragment extends Fragment implements View.OnClickListener  {
             }
 
             case R.id.call_button: {
-                if(ManageDB.getInstance().findItem(barCode))
-                {
-                    Toast.makeText(getContext(), "Deleted", Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-                    /*
-                    ManageDB.getInstance().createNewDayItem(barCode);
-                    Toast.makeText(getContext(), "Added", Toast.LENGTH_LONG).show();
-                    */
-                    CheckroomItemCreateFragment createFragment = CheckroomItemCreateFragment.newInstance(barCode,"meeh");
-                    android.support.v4.app.FragmentManager fm = getFragmentManager();
-                    createFragment.show(fm, CheckroomItemCreateFragment.TAG);
-                }
+
+                /*
+                ManageDB.getInstance().createNewDayItem(barCode);
+                Toast.makeText(getContext(), "Added", Toast.LENGTH_LONG).show();
+                */
+                /*
+                CheckroomItemCreateFragment createFragment = CheckroomItemCreateFragment.newInstance(barCode,"meeh");
+                android.support.v4.app.FragmentManager fm = getFragmentManager();
+                createFragment.show(fm, CheckroomItemCreateFragment.TAG);
+                */
+                Intent i = new Intent();
+                //i.setClass(getActivity(), ItemCreateActivity.class);
+                i.setClass(getActivity(), ItemHandlingActivity.class);
+                i.putExtra("KEY_BARCODE_NUMBER", barCode);
+                startActivity(i);
+
                 barCode = "";
                 break;
             }

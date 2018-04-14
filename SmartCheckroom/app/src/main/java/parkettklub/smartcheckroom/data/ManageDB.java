@@ -42,7 +42,9 @@ public class ManageDB {
         item.save();
     }
 
-    public boolean findItem(String number) {
+    public Long findItem(String number) {
+
+        Long checkroomNumber = Long.valueOf(0);
 
         boolean itemFound = false;
 
@@ -53,21 +55,25 @@ public class ManageDB {
             if(item.getDueBarcodeNumber().equals(number))
             {
                 itemFound = true;
-                /* In the database, so delete it */
+
+                checkroomNumber = item.getId();
+                /* In the database, so delete it
                 item.setDueReserved(false);
                 item.setDueBarcodeNumber("0000");
 
                 item.save();
+                */
             }
         }
 
         if(itemFound == false)
         {
+            checkroomNumber = null;
             /* create the db item */
             //createNewDayItem(number);
         }
 
-        return itemFound;
+        return checkroomNumber;
     }
 
     public Long[] getFreeIds(int lol) {
