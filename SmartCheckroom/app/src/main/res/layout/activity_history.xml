@@ -6,15 +6,26 @@
     android:layout_height="match_parent"
     tools:context="parkettklub.smartcheckroom.HistoryActivity">
 
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
 
-        <TextView android:text="No transaction"
-            android:id="@+id/tvStatus"
-            android:layout_width="wrap_content"
+        <parkettklub.smartcheckroom.view.EmptyRecyclerView
+            android:id="@+id/checkroomTransactionListERV"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-    </ScrollView>
+        <TextView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/emptyTV"
+            style="@style/TextViewTitleStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/no_transactions" />
+
+    </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

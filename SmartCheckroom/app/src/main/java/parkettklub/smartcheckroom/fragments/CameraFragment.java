@@ -24,7 +24,6 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
 
-import parkettklub.smartcheckroom.ItemCreateActivity;
 import parkettklub.smartcheckroom.ItemHandlingActivity;
 import parkettklub.smartcheckroom.R;
 import parkettklub.smartcheckroom.barcode.CameraSourcePreview;

@@ -18,10 +18,10 @@
             android:value="barcode" />
         <meta-data
             android:name="DATABASE"
-            android:value="checkroomitem2.db" />
+            android:value="checkroomdatabase.db" />
         <meta-data
             android:name="VERSION"
-            android:value="1" />
+            android:value="25" />
         <meta-data
             android:name="QUERY_LOG"
             android:value="true" />

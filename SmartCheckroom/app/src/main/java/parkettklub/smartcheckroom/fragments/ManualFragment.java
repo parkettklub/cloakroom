@@ -13,8 +13,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-
-import parkettklub.smartcheckroom.ItemCreateActivity;
 import parkettklub.smartcheckroom.ItemHandlingActivity;
 import parkettklub.smartcheckroom.R;
 import parkettklub.smartcheckroom.data.CheckroomItem;

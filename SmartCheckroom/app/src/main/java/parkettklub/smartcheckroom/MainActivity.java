@@ -38,22 +38,24 @@ public class MainActivity extends AppCompatActivity {
 
         SugarDb db = new SugarDb(this);
 
+
         new Thread(new Runnable() {
             @Override
             public void run() {
 
                 List<CheckroomItem> checkroomItemsInDb = CheckroomItem.listAll(CheckroomItem.class);
 
-                if (checkroomItemsInDb.size() == 0) {
-                    for (int i = 0; i < 100; i++) {
-                        CheckroomItem item = new CheckroomItem(false, "0000", 0,
+                if (checkroomItemsInDb.size() < 300) {
+                    for (int i = 0; i < 300; i++) {
+                        CheckroomItem item = new CheckroomItem(false, "", 0, 0, 0, 0,
                                 new Date(System.currentTimeMillis()));
                         item.save();
                     }
                 }
-                //db.onCreate(db.getWritableDatabase());
+
             }
         }).start();
+
     }
 
     @Override

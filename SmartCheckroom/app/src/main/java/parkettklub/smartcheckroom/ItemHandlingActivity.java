@@ -2,23 +2,22 @@ package parkettklub.smartcheckroom;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import parkettklub.smartcheckroom.data.CheckroomItem;
 import parkettklub.smartcheckroom.data.CheckroomTransaction;
 import parkettklub.smartcheckroom.data.ManageDB;
-import parkettklub.smartcheckroom.fragments.CheckroomItemCreateFragment;
 
 public class ItemHandlingActivity extends AppCompatActivity {
 
@@ -32,9 +31,16 @@ public class ItemHandlingActivity extends AppCompatActivity {
     private Button incCoat;
     private Button decCoat;
 
+    private TextView tvBag;
+    private TextView tvShoe;
+    private TextView tvOther;
+
     private String barcodeNumber;
 
     private Integer coatNum;
+    private Integer bagNum;
+    private Integer shoeNum;
+    private Integer otherNum;
 
     private Boolean newItem;
 
@@ -43,8 +49,18 @@ public class ItemHandlingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_handling);
 
+        final String myString;
+
         Intent intent = getIntent();
         barcodeNumber = intent.getStringExtra(KEY_BARCODE_NUMBER);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        }).start();
+
 
         Long checkroomNumber = ManageDB.getInstance().findItem(barcodeNumber);
         if(checkroomNumber == null) {
@@ -63,12 +79,15 @@ public class ItemHandlingActivity extends AppCompatActivity {
 
         if(newItem)
         {
-            Long[] numbers = ManageDB.getInstance().getFreeIds(0);
-
+            //Long[] numbers = ManageDB.getInstance().getFreeIds(0);
+            ArrayList<Long> numbers = ManageDB.getInstance().getFreeIds(0);
             spnrCheckroomItemNumber.setAdapter(new ArrayAdapter<Long>(this,
                     android.R.layout.simple_spinner_item, numbers));
 
             coatNum = 0;
+            bagNum = 0;
+            shoeNum = 0;
+            otherNum = 0;
         }
         else
         {
@@ -81,6 +100,9 @@ public class ItemHandlingActivity extends AppCompatActivity {
                     android.R.layout.simple_spinner_item, numbers));
 
             coatNum = oldItem.getDueCoatNumber();
+            bagNum = oldItem.getDueBagNumber();
+            shoeNum = oldItem.getDueShoeNumber();
+            otherNum = oldItem.getDueOtherNumber();
         }
 
         editCoatNumber = (TextView) findViewById(R.id.coatNum);
@@ -104,6 +126,66 @@ public class ItemHandlingActivity extends AppCompatActivity {
                 }
             }
         });
+
+        tvBag = findViewById(R.id.tvBag);
+        tvBag.setText(getString(R.string.bagNum, bagNum));
+        tvBag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bagNum++;
+                tvBag.setText(getString(R.string.bagNum, bagNum));
+            }
+        });
+        tvBag.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                bagNum = 0;
+                tvBag.setText(getString(R.string.bagNum, bagNum));
+
+                return true;
+            }
+        });
+
+        tvShoe = findViewById(R.id.tvShoe);
+        tvShoe.setText(getString(R.string.shoeNum, shoeNum));
+        tvShoe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shoeNum++;
+                tvShoe.setText(getString(R.string.shoeNum, shoeNum));
+            }
+        });
+        tvShoe.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                shoeNum = 0;
+                tvShoe.setText(getString(R.string.shoeNum, shoeNum));
+
+                return true;
+            }
+        });
+
+        tvOther = findViewById(R.id.tvOther);
+        tvOther.setText(getString(R.string.otherNum, otherNum));
+        tvOther.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                otherNum++;
+                tvOther.setText(getString(R.string.otherNum, otherNum));
+            }
+        });
+        tvOther.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                otherNum = 0;
+                tvOther.setText(getString(R.string.otherNum, otherNum));
+
+                return true;
+            }
+        });
+
+
 
         // A gombok esemenykezeloinek beallitasa
         Button btnOk = (Button) findViewById(R.id.btnCreateCheckroomItem);
@@ -134,6 +216,9 @@ public class ItemHandlingActivity extends AppCompatActivity {
                 }
 
                 item.setDueCoatNumber(coatNum);
+                item.setDueBagNumber(bagNum);
+                item.setDueShoeNumber(shoeNum);
+                item.setDueOtherNumber(otherNum);
                 item.setDueDate(new Date(System.currentTimeMillis()));
 
                 //CheckroomItem item = new CheckroomItem(true, spnrCheckroomItemNumber.getSelectedItem(), mParam1,
@@ -142,8 +227,10 @@ public class ItemHandlingActivity extends AppCompatActivity {
 
                 if(newItem) {
 
+                    Integer allThings = item.getDueCoatNumber() + item.getDueBagNumber() + item.getDueShoeNumber() + item.getDueOtherNumber();
+
                     CheckroomTransaction newTransaction = new CheckroomTransaction(
-                            "ADD", item.getId(), item.getDueCoatNumber(),
+                            "ADD", item.getDueBarcodeNumber(), item.getId(), allThings,
                             new Date(System.currentTimeMillis()));
 
                     newTransaction.save();
@@ -152,8 +239,10 @@ public class ItemHandlingActivity extends AppCompatActivity {
                 }
                 else
                 {
+                    Integer allThings = item.getDueCoatNumber() + item.getDueBagNumber() + item.getDueShoeNumber() + item.getDueOtherNumber();
+
                     CheckroomTransaction newTransaction = new CheckroomTransaction(
-                            "DELETE", item.getId(), item.getDueCoatNumber(),
+                            "DELETE", item.getDueBarcodeNumber(), item.getId(), allThings,
                             new Date(System.currentTimeMillis()));
 
                     newTransaction.save();
@@ -180,14 +269,21 @@ public class ItemHandlingActivity extends AppCompatActivity {
                     item.setDueReserved(true);
 
                     item.setDueCoatNumber(coatNum);
+                    item.setDueCoatNumber(coatNum);
+                    item.setDueBagNumber(bagNum);
+                    item.setDueShoeNumber(shoeNum);
+                    item.setDueOtherNumber(otherNum);
+
                     item.setDueDate(new Date(System.currentTimeMillis()));
 
                     //CheckroomItem item = new CheckroomItem(true, spnrCheckroomItemNumber.getSelectedItem(), mParam1,
                     //        new Date(System.currentTimeMillis()));
                     item.save();
 
+                    Integer allThings = item.getDueCoatNumber() + item.getDueBagNumber() + item.getDueShoeNumber() + item.getDueOtherNumber();
+
                     CheckroomTransaction newTransaction = new CheckroomTransaction(
-                            "UPDATE", item.getId(), item.getDueCoatNumber(),
+                            "UPDATE", item.getDueBarcodeNumber(), item.getId(), allThings,
                             new Date(System.currentTimeMillis()));
 
                     newTransaction.save();

@@ -11,6 +11,7 @@ import java.util.Date;
 public class CheckroomTransaction extends SugarRecord<CheckroomTransaction> {
 
     private String dueTransactionType;
+    private String dueBarcodeNumber;
     private Long dueCheckroomNumber;
     private Integer dueCoatNumber;
     private Date dueDate;
@@ -18,8 +19,9 @@ public class CheckroomTransaction extends SugarRecord<CheckroomTransaction> {
     public CheckroomTransaction(){
     }
 
-    public CheckroomTransaction(String dueTransactionType, Long dueCheckroomNumber, Integer dueCoatNumber, Date dueDate) {
+    public CheckroomTransaction(String dueTransactionType, String dueBarcodeNumber, Long dueCheckroomNumber, Integer dueCoatNumber, Date dueDate) {
         this.dueTransactionType = dueTransactionType;
+        this.dueBarcodeNumber = dueBarcodeNumber;
         this.dueCheckroomNumber = dueCheckroomNumber;
         this.dueCoatNumber = dueCoatNumber;
         this.dueDate = dueDate;
@@ -31,6 +33,14 @@ public class CheckroomTransaction extends SugarRecord<CheckroomTransaction> {
 
     public void setDueTransactionType(String dueTransactionType) {
         this.dueTransactionType = dueTransactionType;
+    }
+
+    public String getDueBarcodeNumber() {
+        return dueBarcodeNumber;
+    }
+
+    public void setDueBarcodeNumber(String dueBarcodeNumber) {
+        this.dueBarcodeNumber = dueBarcodeNumber;
     }
 
     public Long getDueCheckroomNumber() {

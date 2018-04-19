@@ -22,7 +22,8 @@
             android:layout_marginEnd="8dp"
             android:layout_marginTop="16dp"
             android:text="@string/barcode"
-            android:textSize="@dimen/drawer_text_size"
+            android:textSize="@dimen/lower_text_size"
+            android:gravity="center"
             app:layout_constraintBottom_toTopOf="@+id/textView3"
             app:layout_constraintEnd_toStartOf="@+id/barcodeNumber"
             app:layout_constraintHorizontal_bias="0.17"
@@ -35,33 +36,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:width="100dp"
-            android:textSize="@dimen/drawer_text_size" />
+            android:gravity="center"
+            android:textSize="@dimen/higher_text_size"
+            android:paddingBottom="20dp"/>
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/checkroom"
-            android:textSize="@dimen/drawer_text_size" />
+            android:gravity="center"
+            android:textSize="@dimen/lower_text_size" />
 
         <Spinner
             android:id="@+id/checkroomNumber"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/drawer_text_size" />
+            android:gravity="center"
+            android:textSize="@dimen/higher_text_size"
+            android:paddingBottom="20dp"/>
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tvCoatNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/coatNum"
-            android:textSize="@dimen/drawer_text_size" />
+            android:gravity="center"
+            android:textSize="@dimen/lower_text_size" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:gravity="center"
+            android:layout_marginBottom="20dp"
             android:orientation="horizontal">
 
             <Button
@@ -69,21 +77,75 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="+"
-                android:textSize="@dimen/drawer_text_size" />
+                android:textSize="@dimen/lower_text_size" />
 
             <TextView
                 android:id="@+id/coatNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:width="50dp"
-                android:textSize="@dimen/drawer_text_size" />
+                android:textSize="@dimen/higher_text_size" />
 
             <Button
                 android:id="@+id/btnCoatMinus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="-"
-                android:textSize="@dimen/drawer_text_size" />
+                android:textSize="@dimen/lower_text_size" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvOtherNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Other"
+            android:gravity="center"
+            android:textSize="@dimen/lower_text_size" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvBag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_margin="10dp"
+                android:text="@string/bagNum"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="@drawable/button_item"
+                android:textSize="@dimen/lower_text_size"
+                 />
+
+            <TextView
+                android:id="@+id/tvShoe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_margin="10dp"
+                android:text="@string/otherNum"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="@drawable/button_item"
+                android:textSize="@dimen/lower_text_size" />
+
+            <TextView
+                android:id="@+id/tvOther"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_margin="10dp"
+                android:text="@string/otherNum"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="@drawable/button_item"
+                android:textSize="@dimen/lower_text_size" />
 
         </LinearLayout>
 
@@ -98,24 +160,24 @@
 
         <Button
             android:id="@+id/btnCreateCheckroomItem"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/btnAdd"
-            android:textSize="@dimen/drawer_text_size" />
+            android:textSize="@dimen/higher_text_size" />
 
         <Button
             android:id="@+id/btnUpdateCheckroomItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/btnUpdate"
-            android:textSize="@dimen/drawer_text_size" />
+            android:textSize="@dimen/higher_text_size" />
 
         <Button
             android:id="@+id/btnCancelCreateCheckroomItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/btnCancel"
-            android:textSize="@dimen/drawer_text_size" />
+            android:textSize="@dimen/higher_text_size" />
 
     </LinearLayout>
 

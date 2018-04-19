@@ -2,6 +2,9 @@ package parkettklub.smartcheckroom.data;
 
 import android.widget.Toast;
 
+import com.orm.query.Condition;
+import com.orm.query.Select;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,12 +38,14 @@ public class ManageDB {
 
     }
 
+    /*
     public void createNewDayItem(String CRnum, Integer coatNum) {
         checkroomNumber += 2;
         CheckroomItem item = new CheckroomItem(true, CRnum, coatNum,
                 new Date(System.currentTimeMillis()));
         item.save();
     }
+    */
 
     public Long findItem(String number) {
 
@@ -76,24 +81,41 @@ public class ManageDB {
         return checkroomNumber;
     }
 
-    public Long[] getFreeIds(int lol) {
+    public ArrayList<Long> getFreeIds(int lol) {
 
         boolean itemFound = false;
 
-        List<CheckroomItem> items = CheckroomItem.listAll(CheckroomItem.class);
+        //List<CheckroomItem> items = CheckroomItem.listAll(CheckroomItem.class);
 
-        int arrayNum = (int) CheckroomItem.count(CheckroomItem.class, "due_reserved = ?", new String[]{"0"});
 
-        Long[] ids = new Long[arrayNum];
+        List<CheckroomItem> reservedItems = CheckroomItem.find(CheckroomItem.class,
+                "due_reserved = ?", new String[]{"1"}, null, "id desc", null);
 
-        int i = 0;
+        List<CheckroomItem> items;
+
+        if(reservedItems.size() != 0) {
+            items = CheckroomItem.find(CheckroomItem.class,
+                    "id > ? and due_reserved = ?", reservedItems.get(0).getId().toString(), "0");
+        }
+        else
+        {
+            items = CheckroomItem.find(CheckroomItem.class,
+                    "id > ? and due_reserved = ?", "0", "0");
+        }
+
+        //int arrayNum = (int) CheckroomItem.count(CheckroomItem.class, "due_reserved = ?", new String[]{"0"});
+
+        int arrayNum = items.size();
+
+        System.out.println( arrayNum );
+
+        ArrayList<Long> ids = new ArrayList<Long>();
 
         for (CheckroomItem item : items) {
 
-            if(item.getDueReserved() == false)
+            if(item.getDueReserved() == false && (item.getId()%2) == 1)
             {
-                 ids[i] =  item.getId();
-                 i++;
+                 ids.add(item.getId());
             }
         }
 

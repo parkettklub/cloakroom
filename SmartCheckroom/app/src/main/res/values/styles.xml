@@ -12,6 +12,10 @@
         <item name="fontFamily">@font/roboto</item>
     </style>
 
+    <style name="TextViewTitleStyle" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">20sp</item>
+    </style>
+
     <style name="DialerButton" parent="Widget.AppCompat.Button">
         <item name="fontFamily">@font/roboto</item>
 
@@ -22,7 +26,7 @@
         <item name="android:textSize">@dimen/dialer_text_size</item>
     </style>
 
-    <style name="AppDialogTheme" parent="Base.Theme.AppCompat.Light.Dialog.FixedSize">
+    <style name="AppDialogTheme" parent="Base.Theme.AppCompat.Light.Dialog.MinWidth">
 
     </style>
 
