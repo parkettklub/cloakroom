@@ -81,7 +81,7 @@ public class ManageDB {
         return checkroomNumber;
     }
 
-    public ArrayList<Long> getFreeIds(int lol) {
+    public ArrayList<Long> getFreeIds() {
 
         boolean itemFound = false;
 

@@ -153,12 +153,12 @@ public class ManualFragment extends Fragment implements View.OnClickListener  {
                 phoneNumber.concat("*");
                 break;
             }
-               */
+
             case R.id.hash:{
                 ManageDB.getInstance().deleteAllCheckRoomItems();
                 break;
             }
-
+            */
 
             case R.id.zero:{
                 barCode = barCode + "0";

@@ -80,7 +80,7 @@ public class ItemHandlingActivity extends AppCompatActivity {
         if(newItem)
         {
             //Long[] numbers = ManageDB.getInstance().getFreeIds(0);
-            ArrayList<Long> numbers = ManageDB.getInstance().getFreeIds(0);
+            ArrayList<Long> numbers = ManageDB.getInstance().getFreeIds();
             spnrCheckroomItemNumber.setAdapter(new ArrayAdapter<Long>(this,
                     android.R.layout.simple_spinner_item, numbers));
 

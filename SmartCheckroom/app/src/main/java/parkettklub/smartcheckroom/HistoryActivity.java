@@ -1,13 +1,10 @@
 package parkettklub.smartcheckroom;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
-
-import com.google.android.gms.location.places.Place;
 
 import java.util.List;
 
@@ -40,9 +37,8 @@ public class HistoryActivity extends AppCompatActivity {
                         emptyRecyclerView.setAdapter(adapter);
                         registerForContextMenu(emptyRecyclerView);
 
-                        View emptyTV= findViewById(R.id.emptyTV);
+                        View emptyTV = findViewById(R.id.emptyTV);
                         emptyRecyclerView.setEmptyView(emptyTV);
-
                     }
                 });
             }
