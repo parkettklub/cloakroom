@@ -1,26 +1,16 @@
 package parkettklub.smartcheckroom.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.location.places.Place;
 
 import java.util.List;
 
 import parkettklub.smartcheckroom.R;
-import parkettklub.smartcheckroom.data.CheckroomTransaction;
+import parkettklub.smartcheckroom.core.driver.dbdriver.CheckroomTransaction;
 
 /**
  * Created by Badbeloved on 2018. 04. 15..

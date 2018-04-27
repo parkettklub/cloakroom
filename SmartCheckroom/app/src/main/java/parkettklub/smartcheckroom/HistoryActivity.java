@@ -9,7 +9,7 @@ import android.view.View;
 import java.util.List;
 
 import parkettklub.smartcheckroom.adapter.CheckroomTransactionsAdapter;
-import parkettklub.smartcheckroom.data.CheckroomTransaction;
+import parkettklub.smartcheckroom.core.driver.dbdriver.CheckroomTransaction;
 import parkettklub.smartcheckroom.view.EmptyRecyclerView;
 
 public class HistoryActivity extends AppCompatActivity {

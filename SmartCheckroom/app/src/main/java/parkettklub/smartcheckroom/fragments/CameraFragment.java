@@ -1,12 +1,10 @@
 package parkettklub.smartcheckroom.fragments;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.util.SparseArray;
@@ -27,7 +25,6 @@ import java.io.IOException;
 import parkettklub.smartcheckroom.ItemHandlingActivity;
 import parkettklub.smartcheckroom.R;
 import parkettklub.smartcheckroom.barcode.CameraSourcePreview;
-import parkettklub.smartcheckroom.data.ManageDB;
 
 /**
  * A simple {@link Fragment} subclass.

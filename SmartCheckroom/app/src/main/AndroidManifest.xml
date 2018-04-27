@@ -21,13 +21,13 @@
             android:value="checkroomdatabase.db" />
         <meta-data
             android:name="VERSION"
-            android:value="25" />
+            android:value="27" />
         <meta-data
             android:name="QUERY_LOG"
             android:value="true" />
         <meta-data
             android:name="DOMAIN_PACKAGE_NAME"
-            android:value="parkettklub.smartcheckroom.data" />
+            android:value="parkettklub.smartcheckroom.core.driver.dbdriver" />
 
         <activity
             android:name=".MainActivity"

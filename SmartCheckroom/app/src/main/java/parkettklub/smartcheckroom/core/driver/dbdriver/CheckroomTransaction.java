@@ -1,4 +1,4 @@
-package parkettklub.smartcheckroom.data;
+package parkettklub.smartcheckroom.core.driver.dbdriver;
 
 import com.orm.SugarRecord;
 

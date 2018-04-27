@@ -6,18 +6,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-import parkettklub.smartcheckroom.data.CheckroomItem;
-import parkettklub.smartcheckroom.data.CheckroomTransaction;
-import parkettklub.smartcheckroom.data.ManageDB;
+import parkettklub.smartcheckroom.core.driver.dbdriver.CheckroomItem;
+import parkettklub.smartcheckroom.core.driver.dbdriver.CheckroomTransaction;
+import parkettklub.smartcheckroom.core.driver.dbdriver.ManageDB;
 
 public class ItemHandlingActivity extends AppCompatActivity {
 

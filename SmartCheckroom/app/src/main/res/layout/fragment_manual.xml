@@ -107,7 +107,8 @@
 
             <Button
                 style="@style/DialerButton"
-                android:text="*" />
+                android:text="*"
+                android:visibility="invisible"/>
 
 
             <Button
@@ -118,7 +119,8 @@
             <Button
                 style="@style/DialerButton"
                 android:text="#"
-                android:id="@+id/hash"/>
+                android:id="@+id/hash"
+                android:visibility="invisible"/>
         </TableRow>
 
     </TableLayout>

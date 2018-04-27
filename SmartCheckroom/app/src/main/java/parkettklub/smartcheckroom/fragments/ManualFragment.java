@@ -2,7 +2,6 @@ package parkettklub.smartcheckroom.fragments;
 
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,12 +10,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import parkettklub.smartcheckroom.ItemHandlingActivity;
 import parkettklub.smartcheckroom.R;
-import parkettklub.smartcheckroom.data.CheckroomItem;
-import parkettklub.smartcheckroom.data.ManageDB;
 
 /**
  * A simple {@link Fragment} subclass.

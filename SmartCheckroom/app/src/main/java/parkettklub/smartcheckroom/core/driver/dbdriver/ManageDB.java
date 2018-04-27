@@ -1,9 +1,4 @@
-package parkettklub.smartcheckroom.data;
-
-import android.widget.Toast;
-
-import com.orm.query.Condition;
-import com.orm.query.Select;
+package parkettklub.smartcheckroom.core.driver.dbdriver;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,11 +8,11 @@ import java.util.List;
  * Created by Badbeloved on 2018. 04. 02..
  */
 
-public class ManageDB {
+public class ManageDB implements DataBaseDriverI {
 
     private static ManageDB instance = null;
 
-    private ManageDB () {
+    private ManageDB() {
     }
 
     public static ManageDB getInstance() {
@@ -27,18 +22,18 @@ public class ManageDB {
         return instance;
     }
 
-    private int checkroomNumber = 0;
-
-
+    @Override
     public void deleteAllCheckRoomItems() {
         CheckroomItem.deleteAll(CheckroomItem.class);
     }
 
+    @Override
     public void listAllDayItems() {
 
     }
 
     /*
+    @Override
     public void createNewDayItem(String CRnum, Integer coatNum) {
         checkroomNumber += 2;
         CheckroomItem item = new CheckroomItem(true, CRnum, coatNum,
@@ -47,6 +42,7 @@ public class ManageDB {
     }
     */
 
+    @Override
     public Long findItem(String number) {
 
         Long checkroomNumber = Long.valueOf(0);
@@ -57,8 +53,7 @@ public class ManageDB {
 
         for (CheckroomItem item : items) {
 
-            if(item.getDueBarcodeNumber().equals(number))
-            {
+            if (item.getDueBarcodeNumber().equals(number)) {
                 itemFound = true;
 
                 checkroomNumber = item.getId();
@@ -71,8 +66,7 @@ public class ManageDB {
             }
         }
 
-        if(itemFound == false)
-        {
+        if (itemFound == false) {
             checkroomNumber = null;
             /* create the db item */
             //createNewDayItem(number);
@@ -81,6 +75,7 @@ public class ManageDB {
         return checkroomNumber;
     }
 
+    @Override
     public ArrayList<Long> getFreeIds() {
 
         boolean itemFound = false;
@@ -93,12 +88,10 @@ public class ManageDB {
 
         List<CheckroomItem> items;
 
-        if(reservedItems.size() != 0) {
+        if (reservedItems.size() != 0) {
             items = CheckroomItem.find(CheckroomItem.class,
                     "id > ? and due_reserved = ?", reservedItems.get(0).getId().toString(), "0");
-        }
-        else
-        {
+        } else {
             items = CheckroomItem.find(CheckroomItem.class,
                     "id > ? and due_reserved = ?", "0", "0");
         }
@@ -107,22 +100,29 @@ public class ManageDB {
 
         int arrayNum = items.size();
 
-        System.out.println( arrayNum );
+        System.out.println(arrayNum);
 
         ArrayList<Long> ids = new ArrayList<Long>();
 
         for (CheckroomItem item : items) {
 
-            if(item.getDueReserved() == false && (item.getId()%2) == 1)
-            {
-                 ids.add(item.getId());
+            if (item.getDueReserved() == false && (item.getId() % 2) == 1) {
+                ids.add(item.getId());
             }
         }
 
         return ids;
     }
 
-    public int getCheckroomNumber() {
-        return checkroomNumber;
+
+    @Override
+    public void fillDataBase() {
+        List<CheckroomItem> checkroomItemsInDb = CheckroomItem.listAll(CheckroomItem.class);
+
+        for (int i = checkroomItemsInDb.size(); i < 300; i++) {
+            CheckroomItem item = new CheckroomItem(false, "", 0, 0, 0, 0,
+                    new Date(System.currentTimeMillis()));
+            item.save();
+        }
     }
 }

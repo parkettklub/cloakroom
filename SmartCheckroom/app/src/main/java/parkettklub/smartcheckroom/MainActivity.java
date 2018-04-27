@@ -12,12 +12,8 @@ import android.widget.Toast;
 
 import com.orm.SugarDb;
 
-import java.util.Date;
-import java.util.List;
-
 import parkettklub.smartcheckroom.adapter.LauncherPagerAdapter;
-import parkettklub.smartcheckroom.data.CheckroomItem;
-import parkettklub.smartcheckroom.data.ManageDB;
+import parkettklub.smartcheckroom.core.Core;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,10 +33,7 @@ public class MainActivity extends AppCompatActivity {
         pager.setAdapter(pagerAdapter);
 
         SugarDb db = new SugarDb(this);
-
-
-
-
+        Core.fillDataBase();
     }
 
     @Override
@@ -67,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (id == R.id.action_settings) {
-            Toast.makeText(this,"Settings selected",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Settings selected", Toast.LENGTH_LONG).show();
             return true;
         }
 
