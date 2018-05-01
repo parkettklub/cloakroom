@@ -7,9 +7,9 @@ public interface DataBaseDriverI {
 
     public void listAllDayItems();
 
-    //public void createNewDayItem(String CRnum, Integer coatNum);
+    public void createNewItem(String CRnum, Integer coatNum);
 
-    public Long findItem(String number);
+    public Long findItemByBarcode(String number);
 
     public ArrayList<Long> getFreeIds();
 

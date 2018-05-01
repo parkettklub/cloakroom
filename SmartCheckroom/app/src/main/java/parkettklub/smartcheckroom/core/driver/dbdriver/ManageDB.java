@@ -12,7 +12,10 @@ public class ManageDB implements DataBaseDriverI {
 
     private static ManageDB instance = null;
 
+    public CheckroomItem checkroomItem = null;
+
     private ManageDB() {
+
     }
 
     public static ManageDB getInstance() {
@@ -21,6 +24,12 @@ public class ManageDB implements DataBaseDriverI {
         }
         return instance;
     }
+
+    public void setCheckroomItem(Long checkroomNumber){
+        checkroomItem = CheckroomItem.findById(CheckroomItem.class, checkroomNumber);
+    }
+
+
 
     @Override
     public void deleteAllCheckRoomItems() {
@@ -32,18 +41,16 @@ public class ManageDB implements DataBaseDriverI {
 
     }
 
-    /*
-    @Override
-    public void createNewDayItem(String CRnum, Integer coatNum) {
-        checkroomNumber += 2;
-        CheckroomItem item = new CheckroomItem(true, CRnum, coatNum,
-                new Date(System.currentTimeMillis()));
-        item.save();
-    }
-    */
 
     @Override
-    public Long findItem(String number) {
+    public void createNewItem(String CRnum, Integer coatNum) {
+        CheckroomItem item = new CheckroomItem();
+        item.save();
+    }
+
+
+    @Override
+    public Long findItemByBarcode(String number) {
 
         Long checkroomNumber = Long.valueOf(0);
 
