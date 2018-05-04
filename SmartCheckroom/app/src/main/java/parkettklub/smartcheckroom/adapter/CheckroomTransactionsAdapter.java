@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import parkettklub.smartcheckroom.R;
+import parkettklub.smartcheckroom.core.Transaction;
 import parkettklub.smartcheckroom.core.driver.dbdriver.CheckroomTransaction;
 
 /**
@@ -19,10 +20,10 @@ import parkettklub.smartcheckroom.core.driver.dbdriver.CheckroomTransaction;
 public class CheckroomTransactionsAdapter extends
         RecyclerView.Adapter<CheckroomTransactionsAdapter.TransactionsViewHolder> {
 
-    private List<CheckroomTransaction> checkroomTransactions;
+    private List<Transaction> checkroomTransactions;
     private Context context;
 
-    public CheckroomTransactionsAdapter(List<CheckroomTransaction> checkroomTransactions, Context context) {
+    public CheckroomTransactionsAdapter(List<Transaction> checkroomTransactions, Context context) {
         this.checkroomTransactions = checkroomTransactions;
         this.context = context;
     }
@@ -38,15 +39,15 @@ public class CheckroomTransactionsAdapter extends
     @Override
     public void onBindViewHolder(TransactionsViewHolder holder, int position) {
 
-        final CheckroomTransaction transaction = checkroomTransactions.get(position);
+        final Transaction transaction = checkroomTransactions.get(position);
         if (transaction != null) {
-            holder.tvTransactionId.setText(transaction.getId().toString());
-            holder.tvTransactionType.setText(transaction.getDueTransactionType());
-            holder.tvBarcodeNumber.setText(transaction.getDueBarcodeNumber());
-            holder.tvCheckroomNumber.setText(transaction.getDueCheckroomNumber().toString());
+            //holder.tvTransactionId.setText(transaction.getId().toString());
+            holder.tvTransactionType.setText(transaction.getTransactionType());
+            holder.tvBarcodeNumber.setText(transaction.getBarcode());
+            holder.tvCheckroomNumber.setText(transaction.getCheckroomNum().toString());
 
-            holder.tvCoatNum.setText("Coats: " + transaction.getDueCoatNumber().toString());
-            holder.tvDate.setText(transaction.getDueDate().toString());
+            holder.tvCoatNum.setText("Coats: " + transaction.getStuff().toString());
+            holder.tvDate.setText(transaction.getTransactionTime().toString());
         }
     }
 
@@ -56,7 +57,7 @@ public class CheckroomTransactionsAdapter extends
     }
 
     class TransactionsViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTransactionId;
+        //TextView tvTransactionId;
         TextView tvTransactionType;
         TextView tvBarcodeNumber;
         TextView tvCheckroomNumber;
@@ -66,7 +67,7 @@ public class CheckroomTransactionsAdapter extends
         public TransactionsViewHolder(View itemView) {
             super(itemView);
 
-            tvTransactionId = itemView.findViewById(R.id.tvTranscationId);
+            //tvTransactionId = itemView.findViewById(R.id.tvTranscationId);
             tvTransactionType = itemView.findViewById(R.id.tvTranscationType);
             tvBarcodeNumber = itemView.findViewById(R.id.tvBarcodeNumber);
             tvCheckroomNumber = itemView.findViewById(R.id.tvCheckroomNumber);

@@ -1,10 +1,17 @@
 package parkettklub.smartcheckroom.core.driver.dbdriver;
 
+import android.support.annotation.NonNull;
+
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import parkettklub.smartcheckroom.core.Item;
+import parkettklub.smartcheckroom.core.Transaction;
 
 /**
  * Created by Badbeloved on 2018. 04. 02..
@@ -176,6 +183,29 @@ public class ManageDB implements DataBaseDriverI {
 
         newTransaction.save();
 
+    }
+
+    @Override
+    public List<Transaction> listAllTransactions() {
+
+        List<Transaction> transactions = new ArrayList<Transaction>();
+
+        List<CheckroomTransaction> checkroomTransactions = CheckroomTransaction.listAll(CheckroomTransaction.class);
+
+        for(int i =0; i < checkroomTransactions.size(); i++)
+        {
+            Transaction nextTransaction = new Transaction();
+
+            nextTransaction.setTransactionType(checkroomTransactions.get(i).getDueTransactionType());
+            nextTransaction.setBarcode(checkroomTransactions.get(i).getDueBarcodeNumber());
+            nextTransaction.setCheckroomNum(checkroomTransactions.get(i).getDueCheckroomNumber());
+            nextTransaction.setStuff(checkroomTransactions.get(i).getDueCoatNumber());
+            nextTransaction.setTransactionTime(checkroomTransactions.get(i).getDueDate());
+
+            transactions.add(nextTransaction);
+        }
+
+        return transactions;
     }
 
 }

@@ -9,6 +9,8 @@ import android.view.View;
 import java.util.List;
 
 import parkettklub.smartcheckroom.adapter.CheckroomTransactionsAdapter;
+import parkettklub.smartcheckroom.core.Core;
+import parkettklub.smartcheckroom.core.Transaction;
 import parkettklub.smartcheckroom.core.driver.dbdriver.CheckroomTransaction;
 import parkettklub.smartcheckroom.view.EmptyRecyclerView;
 
@@ -26,7 +28,10 @@ public class HistoryActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final List<CheckroomTransaction> transactions = CheckroomTransaction.listAll(CheckroomTransaction.class);
+
+                final List<Transaction> transactions =  Core.listAllTransactions();
+
+                //final List<CheckroomTransaction> transactions = CheckroomTransaction.listAll(CheckroomTransaction.class);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

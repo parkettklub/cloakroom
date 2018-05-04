@@ -7,6 +7,7 @@ import com.orm.SugarRecord;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import parkettklub.smartcheckroom.ItemHandlingActivity;
 import parkettklub.smartcheckroom.core.driver.dbdriver.CheckroomItem;
@@ -120,6 +121,12 @@ public class Core {
 
             }
         }).start();
+
+    }
+
+    public static List<Transaction> listAllTransactions() {
+
+        return DATA_BASE_DRIVER.listAllTransactions();
 
     }
 }
