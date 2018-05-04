@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import parkettklub.smartcheckroom.core.Item;
+
 /**
  * Created by Badbeloved on 2018. 04. 02..
  */
@@ -132,4 +134,48 @@ public class ManageDB implements DataBaseDriverI {
             item.save();
         }
     }
+
+    @Override
+    public Item findItemByCheckroomNum(Long aCheckroomNum) {
+
+        Item item = new Item();
+
+        CheckroomItem dbItem = CheckroomItem.findById(CheckroomItem.class, aCheckroomNum);
+
+        item.setCheckroomNum(aCheckroomNum);
+        item.setBarcode(dbItem.getDueBarcodeNumber());
+        item.setCoatNum(dbItem.getDueCoatNumber());
+        item.setBagNum(dbItem.getDueBagNumber());
+        item.setShoeNum(dbItem.getDueShoeNumber());
+        item.setOtherNum(dbItem.getDueOtherNumber());
+        //item.setTime(dbItem.getDueDate().getTime()); FIXME
+
+        return item;
+    }
+
+    @Override
+    public void addItem(Item aItem, Boolean aNewItem) {
+        CheckroomItem dbItem = CheckroomItem.findById(CheckroomItem.class, aItem.getCheckroomNum());
+
+        dbItem.setDueBarcodeNumber(aItem.getBarcode());
+        dbItem.setDueReserved(aNewItem);
+        dbItem.setDueCoatNumber(aItem.getCoatNum());
+        dbItem.setDueBagNumber(aItem.getBagNum());
+        dbItem.setDueShoeNumber(aItem.getShoeNum());
+        dbItem.setDueOtherNumber(aItem.getOtherNum());
+        dbItem.setDueDate(new Date(System.currentTimeMillis()));
+
+        dbItem.save();
+    }
+
+    @Override
+    public void addNewTransaction(String aTransactionType, String aBarcode, Long aCheckroomNum, Integer aAllThings, Date aDate) {
+
+        CheckroomTransaction newTransaction = new CheckroomTransaction(aTransactionType, aBarcode,
+                aCheckroomNum, aAllThings, new Date(System.currentTimeMillis()));
+
+        newTransaction.save();
+
+    }
+
 }

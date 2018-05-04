@@ -1,6 +1,9 @@
 package parkettklub.smartcheckroom.core.driver.dbdriver;
 
 import java.util.ArrayList;
+import java.util.Date;
+
+import parkettklub.smartcheckroom.core.Item;
 
 public interface DataBaseDriverI {
     public void deleteAllCheckRoomItems();
@@ -14,4 +17,10 @@ public interface DataBaseDriverI {
     public ArrayList<Long> getFreeIds();
 
     public void fillDataBase();
+
+    public Item findItemByCheckroomNum(Long aCheckroomNum);
+
+    void addItem(Item aItem, Boolean aNewItem);
+
+    void addNewTransaction(String aTransactionType, String aBarcode, Long aCheckroomNum, Integer aAllThings, Date aDate);
 }

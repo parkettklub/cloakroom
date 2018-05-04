@@ -4,6 +4,7 @@ import android.widget.Toast;
 
 import com.orm.SugarRecord;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -27,10 +28,12 @@ public class Core {
     public static Boolean newItem;
     public static ArrayList<Long> numbers;
 
-    public static CheckroomItem item;
+    private static Item coreItem = new Item();
+
+    //public static CheckroomItem item;
 
     public static void refreshData(Long checkroomNumber) {
-        item = CheckroomItem.findById(CheckroomItem.class, checkroomNumber);
+        //item = CheckroomItem.findById(CheckroomItem.class, checkroomNumber);
     }
 
     public static void fillDataBase()
@@ -71,12 +74,12 @@ public class Core {
             numbers = new ArrayList<Long>();
             numbers.add(checkroomNumber);
 
-            item = CheckroomItem.findById(CheckroomItem.class, checkroomNumber);
+            coreItem = DATA_BASE_DRIVER.findItemByCheckroomNum(checkroomNumber);
 
-            coatNum = item.getDueCoatNumber();
-            bagNum = item.getDueBagNumber();
-            shoeNum = item.getDueShoeNumber();
-            otherNum = item.getDueOtherNumber();
+            coatNum = coreItem.getCoatNum();
+            bagNum = coreItem.getBagNum();
+            shoeNum = coreItem.getShoeNum();
+            otherNum = coreItem.getOtherNum();
         }
     }
 
@@ -85,38 +88,35 @@ public class Core {
         final Long checkroomId = aCheckroomNum;
         final String transactionType = aTransactionType;
 
+        //item.setDueReserved(newItem);
+
+        coreItem.setCheckroomNum(checkroomId);
+
+        if(newItem)
+        {
+            coreItem.setBarcode(barcodeNumber);
+        }
+        else
+        {
+            coreItem.setBarcode("");
+        }
+
+        coreItem.setCoatNum(coatNum);
+        coreItem.setBagNum(bagNum);
+        coreItem.setShoeNum(shoeNum);
+        coreItem.setOtherNum(otherNum);
+        coreItem.setTime(new Time(System.currentTimeMillis()));
+
+        final Integer allThings = coreItem.getCoatNum() + coreItem.getBagNum() + coreItem.getShoeNum() + coreItem.getOtherNum();
+
         new Thread(new Runnable() {
             @Override
             public void run() {
-                item = CheckroomItem.findById(CheckroomItem.class, checkroomId);
 
-                item.setDueReserved(newItem);
+                DATA_BASE_DRIVER.addItem(coreItem, newItem);
 
-                if(newItem)
-                {
-                    item.setDueBarcodeNumber(barcodeNumber);
-                }
-                else
-                {
-                    item.setDueBarcodeNumber("");
-                }
-
-                item.setDueCoatNumber(coatNum);
-                item.setDueBagNumber(bagNum);
-                item.setDueShoeNumber(shoeNum);
-                item.setDueOtherNumber(otherNum);
-                item.setDueDate(new Date(System.currentTimeMillis()));
-
-                item.save();
-
-
-                Integer allThings = item.getDueCoatNumber() + item.getDueBagNumber() + item.getDueShoeNumber() + item.getDueOtherNumber();
-
-                CheckroomTransaction newTransaction = new CheckroomTransaction(
-                        transactionType, item.getDueBarcodeNumber(), item.getId(), allThings,
-                        new Date(System.currentTimeMillis()));
-
-                newTransaction.save();
+                DATA_BASE_DRIVER.addNewTransaction(transactionType, barcodeNumber, checkroomId,
+                        allThings, new Date(System.currentTimeMillis()));
 
             }
         }).start();

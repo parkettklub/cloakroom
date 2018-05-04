@@ -1,5 +1,7 @@
 package parkettklub.smartcheckroom.core;
 
+import java.sql.Time;
+
 public class Item {
 
     private String Barcode;
@@ -8,17 +10,19 @@ public class Item {
     private Integer BagNum;
     private Integer ShoeNum;
     private Integer OtherNum;
+    private Time time;
 
     public Item() {
     }
 
-    public Item(String barcode, Long checkroomNum, Integer coatNum, Integer bagNum, Integer shoeNum, Integer otherNum) {
+    public Item(String barcode, Long checkroomNum, Integer coatNum, Integer bagNum, Integer shoeNum, Integer otherNum, Time time) {
         Barcode = barcode;
         CheckroomNum = checkroomNum;
         CoatNum = coatNum;
         BagNum = bagNum;
         ShoeNum = shoeNum;
         OtherNum = otherNum;
+        this.time = time;
     }
 
     public String getBarcode() {
@@ -67,5 +71,13 @@ public class Item {
 
     public void setOtherNum(Integer otherNum) {
         OtherNum = otherNum;
+    }
+
+    public Time getTime() {
+        return time;
+    }
+
+    public void setTime(Time time) {
+        this.time = time;
     }
 }
