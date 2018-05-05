@@ -190,7 +190,11 @@ public class ManageDB implements DataBaseDriverI {
 
         List<Transaction> transactions = new ArrayList<Transaction>();
 
-        List<CheckroomTransaction> checkroomTransactions = CheckroomTransaction.listAll(CheckroomTransaction.class);
+        List<CheckroomTransaction> checkroomTransactions = CheckroomTransaction.find(
+                CheckroomTransaction.class, null, null, null,
+                "id desc", null);
+
+        //CheckroomTransaction.listAll(CheckroomTransaction.class);
 
         for(int i =0; i < checkroomTransactions.size(); i++)
         {

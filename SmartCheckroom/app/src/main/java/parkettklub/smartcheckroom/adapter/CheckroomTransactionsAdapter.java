@@ -43,11 +43,13 @@ public class CheckroomTransactionsAdapter extends
         if (transaction != null) {
             //holder.tvTransactionId.setText(transaction.getId().toString());
             holder.tvTransactionType.setText(transaction.getTransactionType());
-            holder.tvBarcodeNumber.setText(transaction.getBarcode());
+            //holder.tvBarcodeNumber.setText(transaction.getBarcode());
             holder.tvCheckroomNumber.setText(transaction.getCheckroomNum().toString());
 
-            holder.tvCoatNum.setText("Coats: " + transaction.getStuff().toString());
-            holder.tvDate.setText(transaction.getTransactionTime().toString());
+            holder.tvCoatNum.setText(transaction.getStuff().toString());
+            holder.tvDate.setText(transaction.getTransactionTime().getHours() + ":" +
+                    transaction.getTransactionTime().getMinutes() + ":"+
+                    transaction.getTransactionTime().getSeconds());
         }
     }
 
@@ -59,7 +61,7 @@ public class CheckroomTransactionsAdapter extends
     class TransactionsViewHolder extends RecyclerView.ViewHolder {
         //TextView tvTransactionId;
         TextView tvTransactionType;
-        TextView tvBarcodeNumber;
+        //TextView tvBarcodeNumber;
         TextView tvCheckroomNumber;
         TextView tvCoatNum;
         TextView tvDate;
@@ -69,7 +71,7 @@ public class CheckroomTransactionsAdapter extends
 
             //tvTransactionId = itemView.findViewById(R.id.tvTranscationId);
             tvTransactionType = itemView.findViewById(R.id.tvTranscationType);
-            tvBarcodeNumber = itemView.findViewById(R.id.tvBarcodeNumber);
+            //tvBarcodeNumber = itemView.findViewById(R.id.tvBarcodeNumber);
             tvCheckroomNumber = itemView.findViewById(R.id.tvCheckroomNumber);
             tvCoatNum = itemView.findViewById(R.id.tvCoatNum);
             tvDate = itemView.findViewById(R.id.tvDueDate);

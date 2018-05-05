@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +25,7 @@ public class ItemHandlingActivity extends AppCompatActivity {
 
     // UI
     private TextView editBarcodeNumber;
-    private Spinner spnrCheckroomItemNumber;
+    private NumberPicker npCheckroomNumber;
 
     private TextView editCoatNumber;
     private Button incCoat;
@@ -56,18 +57,15 @@ public class ItemHandlingActivity extends AppCompatActivity {
                         editBarcodeNumber = (TextView) findViewById(R.id.barcodeNumber);
                         editBarcodeNumber.setText(Core.barcodeNumber);
 
-                        spnrCheckroomItemNumber = (Spinner) findViewById(R.id.checkroomNumber);
+                        npCheckroomNumber = (NumberPicker) findViewById(R.id.npCheckroomNum);
 
-                        if(Core.newItem)
-                        {
-                            spnrCheckroomItemNumber.setAdapter(new ArrayAdapter<Long>(getBaseContext(),
-                                    android.R.layout.simple_spinner_item, Core.numbers));
-                        }
-                        else
-                        {
-                            spnrCheckroomItemNumber.setAdapter(new ArrayAdapter<Long>(getBaseContext(),
-                                    android.R.layout.simple_spinner_item, Core.numbers));
-                        }
+                        npCheckroomNumber.setMinValue(0);
+                        npCheckroomNumber.setMaxValue(Core.numbers.size()-1);
+
+                        //Specify the NumberPicker data source as array elements
+                        npCheckroomNumber.setDisplayedValues(Core.values);
+
+                        npCheckroomNumber.setWrapSelectorWheel(false);
 
                         editCoatNumber = (TextView) findViewById(R.id.coatNum);
                         editCoatNumber.setText(Core.coatNum.toString());
@@ -163,12 +161,13 @@ public class ItemHandlingActivity extends AppCompatActivity {
                             public void onClick(View v) {
 
                                 if(Core.newItem) {
-                                    Core.handleItem((Long) spnrCheckroomItemNumber.getSelectedItem(), "ADDED");
+                                    Core.handleItem(Long.valueOf(npCheckroomNumber.getValue()), "ADDED");
+                                    //Core.handleItem((Long) spnrCheckroomItemNumber.getSelectedItem(), "ADDED");
                                     Toast.makeText(ItemHandlingActivity.this, "Added", Toast.LENGTH_LONG).show();
                                 }
                                 else
                                 {
-                                    Core.handleItem((Long) spnrCheckroomItemNumber.getSelectedItem(), "DELETED");
+                                    Core.handleItem(Long.valueOf(npCheckroomNumber.getValue()), "DELETED");
                                     Toast.makeText(ItemHandlingActivity.this, "Deleted", Toast.LENGTH_LONG).show();
                                 }
 
@@ -187,7 +186,7 @@ public class ItemHandlingActivity extends AppCompatActivity {
                                 public void onClick(View v) {
 
                                     Core.newItem = true;
-                                    Core.handleItem((Long) spnrCheckroomItemNumber.getSelectedItem(), "UPDATED");
+                                    Core.handleItem(Long.valueOf(npCheckroomNumber.getValue()), "UPDATED");
 
                                     Toast.makeText(ItemHandlingActivity.this, "Updated", Toast.LENGTH_LONG).show();
 

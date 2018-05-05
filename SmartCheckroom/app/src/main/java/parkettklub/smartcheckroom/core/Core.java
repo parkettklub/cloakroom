@@ -30,6 +30,7 @@ public class Core {
     public static ArrayList<Long> numbers;
 
     private static Item coreItem = new Item();
+    public static String[] values;
 
     //public static CheckroomItem item;
 
@@ -63,6 +64,14 @@ public class Core {
             newItem = true;
             numbers = DATA_BASE_DRIVER.getFreeIds();
 
+            //Initializing a new string array with elements
+            values = new String[Core.numbers.size()];
+
+            for(int i = 0; i < Core.numbers.size(); i++)
+            {
+                values[i] = Core.numbers.get(i).toString();
+            }
+
             coatNum = 0;
             bagNum = 0;
             shoeNum = 0;
@@ -75,6 +84,9 @@ public class Core {
             numbers = new ArrayList<Long>();
             numbers.add(checkroomNumber);
 
+            //Initializing a new string array with elements
+            values = new String[]{checkroomNumber.toString()};
+
             coreItem = DATA_BASE_DRIVER.findItemByCheckroomNum(checkroomNumber);
 
             coatNum = coreItem.getCoatNum();
@@ -86,7 +98,7 @@ public class Core {
 
     public static void handleItem(Long aCheckroomNum, String aTransactionType) {
 
-        final Long checkroomId = aCheckroomNum;
+        final Long checkroomId = Long.valueOf(values[aCheckroomNum.intValue()]);
         final String transactionType = aTransactionType;
 
         //item.setDueReserved(newItem);
