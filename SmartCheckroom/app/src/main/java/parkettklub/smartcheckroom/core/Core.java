@@ -141,4 +141,45 @@ public class Core {
         return DATA_BASE_DRIVER.listAllTransactions();
 
     }
+
+    public static List<Integer> listNoneUpdatedTransactions() {
+
+        int guestCntr = 0;
+
+        List<Transaction> transactions = DATA_BASE_DRIVER.listNoneUpdatedTransactions();
+
+        List<Integer> guestNum = new ArrayList<Integer>();
+
+        for(Transaction transaction : transactions)
+        {
+            if(transaction.getTransactionType().equals("ADDED"))
+            {
+                guestCntr++;
+            }
+            else
+            {
+                guestCntr--;
+            }
+
+            guestNum.add(guestCntr);
+        }
+
+        return guestNum;
+    }
+
+    public static List<Date> listNoneUpdatedTransactionTimes() {
+
+        int guestCntr = 0;
+
+        List<Transaction> transactions = DATA_BASE_DRIVER.listNoneUpdatedTransactions();
+
+        List<Date> times = new ArrayList<Date>();
+
+        for(Transaction transaction : transactions)
+        {
+            times.add(transaction.getTransactionTime());
+        }
+
+        return times;
+    }
 }

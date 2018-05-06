@@ -43,6 +43,7 @@
             android:label="@string/title_activity_item_handling"
             android:theme="@style/AppDialogTheme" />
         <activity android:name=".HistoryActivity" />
+        <activity android:name=".StatisticsActivity"></activity>
     </application>
 
 </manifest>

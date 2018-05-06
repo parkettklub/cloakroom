@@ -97,5 +97,6 @@
     <string name="otherNum">Other: %1$d</string>
 
     <string name="no_transactions">No transactions</string>
+    <string name="action_statistics">Stats</string>
 
 </resources>

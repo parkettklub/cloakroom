@@ -212,4 +212,29 @@ public class ManageDB implements DataBaseDriverI {
         return transactions;
     }
 
+    @Override
+    public List<Transaction> listNoneUpdatedTransactions() {
+        List<Transaction> transactions = new ArrayList<Transaction>();
+
+        List<CheckroomTransaction> checkroomTransactions = CheckroomTransaction.find(
+                CheckroomTransaction.class, "due_transaction_type != ?", "UPDATED");
+
+        //CheckroomTransaction.listAll(CheckroomTransaction.class);
+
+        for(int i =0; i < checkroomTransactions.size(); i++)
+        {
+            Transaction nextTransaction = new Transaction();
+
+            nextTransaction.setTransactionType(checkroomTransactions.get(i).getDueTransactionType());
+            nextTransaction.setBarcode(checkroomTransactions.get(i).getDueBarcodeNumber());
+            nextTransaction.setCheckroomNum(checkroomTransactions.get(i).getDueCheckroomNumber());
+            nextTransaction.setStuff(checkroomTransactions.get(i).getDueCoatNumber());
+            nextTransaction.setTransactionTime(checkroomTransactions.get(i).getDueDate());
+
+            transactions.add(nextTransaction);
+        }
+
+        return transactions;
+    }
+
 }

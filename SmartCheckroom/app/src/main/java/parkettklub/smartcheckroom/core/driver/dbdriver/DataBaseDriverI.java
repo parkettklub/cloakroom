@@ -27,4 +27,6 @@ public interface DataBaseDriverI {
     void addNewTransaction(String aTransactionType, String aBarcode, Long aCheckroomNum, Integer aAllThings, Date aDate);
 
     List<Transaction> listAllTransactions();
+
+    List<Transaction> listNoneUpdatedTransactions();
 }
