@@ -14,10 +14,13 @@ import parkettklub.smartcheckroom.core.driver.dbdriver.CheckroomItem;
 import parkettklub.smartcheckroom.core.driver.dbdriver.CheckroomTransaction;
 import parkettklub.smartcheckroom.core.driver.dbdriver.DataBaseDriverI;
 import parkettklub.smartcheckroom.core.driver.dbdriver.ManageDB;
+import parkettklub.smartcheckroom.core.driver.networkdriver.NetworkDriver;
+import parkettklub.smartcheckroom.core.driver.networkdriver.Request;
 
 public class Core {
 
-    private static DataBaseDriverI DATA_BASE_DRIVER = ManageDB.getInstance();
+    private static final DataBaseDriverI DATA_BASE_DRIVER = ManageDB.getInstance();
+    private static final NetworkDriver NETWORK_DRIVER = NetworkDriver.getInstance();
 
     public static String barcodeNumber;
 
@@ -131,6 +134,10 @@ public class Core {
                 DATA_BASE_DRIVER.addNewTransaction(transactionType, barcodeNumber, checkroomId,
                         allThings, new Date(System.currentTimeMillis()));
 
+                Request request = new Request();
+                request.setItem(coreItem);
+                NETWORK_DRIVER.sendData(request);
+
             }
         }).start();
 
@@ -181,5 +188,10 @@ public class Core {
         }
 
         return times;
+    }
+
+    public static boolean freshItem(Item item) {
+        DATA_BASE_DRIVER.addItem(item,  !item.getBarcode().equals(""));
+        return true;
     }
 }

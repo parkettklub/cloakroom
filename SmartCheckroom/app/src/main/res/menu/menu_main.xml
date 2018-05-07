@@ -10,8 +10,14 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_Server"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="Server"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_Client"
+        android:orderInCategory="100"
+        android:title="Client"
         app:showAsAction="never" />
 </menu>

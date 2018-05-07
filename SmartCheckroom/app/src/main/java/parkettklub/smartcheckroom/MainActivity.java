@@ -1,19 +1,28 @@
 package parkettklub.smartcheckroom;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.StrictMode;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.orm.SugarDb;
 
+import java.io.IOException;
+
 import parkettklub.smartcheckroom.adapter.LauncherPagerAdapter;
 import parkettklub.smartcheckroom.core.Core;
+import parkettklub.smartcheckroom.core.driver.networkdriver.NetworkDriver;
+import parkettklub.smartcheckroom.core.driver.networkdriver.Request;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
@@ -59,11 +71,46 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
-        if (id == R.id.action_settings) {
-            Toast.makeText(this, "Settings selected", Toast.LENGTH_LONG).show();
+        if (id == R.id.action_Server) {
+
+            NetworkDriver network = NetworkDriver.getInstance();
+
+            try {
+                network.runServer();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            //Toast.makeText(this, serverString, Toast.LENGTH_LONG).show();
+            return true;
+        }
+
+        if (id == R.id.action_Client) {
+
+            final NetworkDriver network = NetworkDriver.getInstance();
+
+            try {
+                network.runClient();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showAlertMessage(final String aMessage) {
+        AlertDialog.Builder alertbox =
+                new AlertDialog.Builder(this);
+        alertbox.setMessage(aMessage);
+        alertbox.setNeutralButton("Ok",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0,
+                                        int arg1) {
+// Ok kiválasztva
+                    }
+                });
+        alertbox.show();
     }
 }
