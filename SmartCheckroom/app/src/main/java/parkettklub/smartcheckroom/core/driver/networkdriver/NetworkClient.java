@@ -13,15 +13,29 @@ public class NetworkClient extends Client {
     private boolean received;
     private Response response;
 
-    public NetworkClient(int udpPort, int timeout, int tcpPort) throws IOException {
+    public NetworkClient(int udpPort, int timeout, int tcpPort){
         Kryo kryo = getKryo();
         kryo.register(Request.class);
         kryo.register(Response.class);
         kryo.register(Item.class);
         kryo.register(Time.class);
         start();
+        /*
         InetAddress address = discoverHost(udpPort, timeout);
         connect(timeout, address.getHostAddress(), tcpPort, udpPort);
+        */
+    }
+
+    public boolean findServer(int udpPort, int timeout, int tcpPort) throws IOException {
+        InetAddress address = discoverHost(udpPort, timeout);
+        if(null != address) {
+            connect(timeout, address.getHostAddress(), tcpPort, udpPort);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public void setReceived(boolean received) {
@@ -39,11 +53,13 @@ public class NetworkClient extends Client {
     public void setResponse(Response response) {
         this.response = response;
     }
+
+
     public Response sendData(Request request){
         setReceived(false);
-        sendTCP(request);
         setResponse(null);
-        waitForResponse(5);
+        sendTCP(request);
+        waitForResponse(55);
         return getResponse();
     }
 

@@ -176,6 +176,14 @@ public class ManageDB implements DataBaseDriverI {
     }
 
     @Override
+    public boolean isReserved(Long aCheckroomNum)
+    {
+        CheckroomItem item = CheckroomItem.findById(CheckroomItem.class, aCheckroomNum);
+        return item.getDueReserved();
+    }
+
+
+    @Override
     public void addNewTransaction(String aTransactionType, String aBarcode, Long aCheckroomNum, Integer aAllThings, Date aDate) {
 
         CheckroomTransaction newTransaction = new CheckroomTransaction(aTransactionType, aBarcode,

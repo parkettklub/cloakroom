@@ -1,17 +1,11 @@
 package parkettklub.smartcheckroom.core;
 
-import android.widget.Toast;
-
-import com.orm.SugarRecord;
-
+import java.io.IOException;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import parkettklub.smartcheckroom.ItemHandlingActivity;
-import parkettklub.smartcheckroom.core.driver.dbdriver.CheckroomItem;
-import parkettklub.smartcheckroom.core.driver.dbdriver.CheckroomTransaction;
 import parkettklub.smartcheckroom.core.driver.dbdriver.DataBaseDriverI;
 import parkettklub.smartcheckroom.core.driver.dbdriver.ManageDB;
 import parkettklub.smartcheckroom.core.driver.networkdriver.NetworkDriver;
@@ -99,7 +93,52 @@ public class Core {
         }
     }
 
-    public static void handleItem(Long aCheckroomNum, String aTransactionType) {
+    public static boolean isReserved(Long aCheckroomNum)
+    {
+        return DATA_BASE_DRIVER.isReserved(aCheckroomNum);
+    }
+
+    public static void reserveItem(Long aCheckroomNum, boolean aIsReserved) {
+
+        final Long checkroomId = Long.valueOf(values[aCheckroomNum.intValue()]);
+
+        final boolean isReserved = aIsReserved;
+
+        //item.setDueReserved(newItem);
+
+        coreItem.setCheckroomNum(checkroomId);
+
+        if(isReserved)
+        {
+            coreItem.setBarcode(barcodeNumber);
+        }
+        else
+        {
+            coreItem.setBarcode("");
+        }
+
+        coreItem.setCoatNum(coatNum);
+        coreItem.setBagNum(bagNum);
+        coreItem.setShoeNum(shoeNum);
+        coreItem.setOtherNum(otherNum);
+        coreItem.setTime(new Time(System.currentTimeMillis()));
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                DATA_BASE_DRIVER.addItem(coreItem, isReserved);
+
+                Request request = new Request();
+                request.setItem(coreItem);
+                NETWORK_DRIVER.sendData(request);
+
+            }
+        }).start();
+
+    }
+
+    public static Long handleItem(Long aCheckroomNum, String aTransactionType) {
 
         final Long checkroomId = Long.valueOf(values[aCheckroomNum.intValue()]);
         final String transactionType = aTransactionType;
@@ -140,6 +179,8 @@ public class Core {
 
             }
         }).start();
+
+        return checkroomId;
 
     }
 
@@ -193,5 +234,25 @@ public class Core {
     public static boolean freshItem(Item item) {
         DATA_BASE_DRIVER.addItem(item,  !item.getBarcode().equals(""));
         return true;
+    }
+
+    public static String findServer(){
+
+        String sNetwork = "Error";
+
+        try {
+            if(NETWORK_DRIVER.findServer())
+            {
+                sNetwork = "Client";
+            }
+            else
+            {
+                sNetwork = "Server";
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return sNetwork;
     }
 }

@@ -22,11 +22,13 @@ public interface DataBaseDriverI {
 
     public Item findItemByCheckroomNum(Long aCheckroomNum);
 
-    void addItem(Item aItem, Boolean aNewItem);
+    public void addItem(Item aItem, Boolean aNewItem);
 
-    void addNewTransaction(String aTransactionType, String aBarcode, Long aCheckroomNum, Integer aAllThings, Date aDate);
+    public void addNewTransaction(String aTransactionType, String aBarcode, Long aCheckroomNum, Integer aAllThings, Date aDate);
 
-    List<Transaction> listAllTransactions();
+    public List<Transaction> listAllTransactions();
 
-    List<Transaction> listNoneUpdatedTransactions();
+    public List<Transaction> listNoneUpdatedTransactions();
+
+    public boolean isReserved(Long aCheckroomNum);
 }

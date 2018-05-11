@@ -46,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
 
         SugarDb db = new SugarDb(this);
         Core.fillDataBase();
+
+        String networkString = Core.findServer();
+        Toast.makeText(this, networkString, Toast.LENGTH_LONG).show();
     }
 
     @Override
