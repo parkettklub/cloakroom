@@ -5,9 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.NumberPicker;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -219,6 +223,7 @@ public class ItemHandlingActivity extends AppCompatActivity {
 
                                     showAlertMessage("Updated: " + String.valueOf(retValue));
 
+                                    //showPopUp(v, "Updated: " + String.valueOf(retValue));
                                     //finish();
                                 }
                             });
@@ -243,15 +248,35 @@ public class ItemHandlingActivity extends AppCompatActivity {
     private void showAlertMessage(final String aMessage) {
         AlertDialog.Builder alertbox =
                 new AlertDialog.Builder(this);
-        alertbox.setMessage(aMessage);
-        alertbox.setNeutralButton("Ok",
+        // Get the layout inflater
+        LayoutInflater inflater = this.getLayoutInflater();
+
+        View alertView = inflater.inflate(R.layout.popup, null);
+
+        TextView tvPopup = (TextView) alertView.findViewById(R.id.tvPopup);
+        tvPopup.setText(aMessage);
+
+        Button btnOK = (Button) alertView.findViewById(R.id.OKbutton);
+        btnOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        alertbox.setView(alertView);
+        /*
+        alertbox.setView(alertView).setNeutralButton("Ok",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0,
                                         int arg1) {
                         finish();
                     }
                 });
+                */
         alertbox.show();
+
     }
+
+
 }
 

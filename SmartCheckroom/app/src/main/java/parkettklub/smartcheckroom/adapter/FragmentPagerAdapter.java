@@ -11,11 +11,11 @@ import parkettklub.smartcheckroom.fragments.ManualFragment;
  * Created by Badbeloved on 2018. 03. 30..
  */
 
-public class LauncherPagerAdapter extends FragmentStatePagerAdapter {
+public class FragmentPagerAdapter extends FragmentStatePagerAdapter {
 
     private static final int NUM_PAGES = 2;
 
-    public LauncherPagerAdapter(FragmentManager manager) {
+    public FragmentPagerAdapter(FragmentManager manager) {
         super(manager);
     }
 

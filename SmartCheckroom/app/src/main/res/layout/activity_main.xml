@@ -13,6 +13,7 @@
         <android.support.v4.view.PagerTabStrip
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/fragmentTitle"
             android:layout_gravity="top"
             />
 

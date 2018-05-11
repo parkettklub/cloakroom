@@ -5,7 +5,11 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -21,6 +25,7 @@ import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
+import java.util.List;
 
 import parkettklub.smartcheckroom.ItemHandlingActivity;
 import parkettklub.smartcheckroom.R;
@@ -120,14 +125,14 @@ public class CameraFragment extends Fragment {
                     android.support.v4.app.FragmentManager fm = getFragmentManager();
                     createFragment.show(fm, CheckroomItemCreateFragment.TAG);
                     */
-                    Intent i = new Intent();
-                    //i.setClass(getActivity(), ItemCreateActivity.class);
-                    i.setClass(getActivity(), ItemHandlingActivity.class);
-                    i.putExtra("KEY_BARCODE_NUMBER", barcodes.valueAt(0).displayValue);
-                    startActivity(i);
 
-
-
+                    if(getUserVisibleHint()) {
+                        Intent i = new Intent();
+                        //i.setClass(getActivity(), ItemCreateActivity.class);
+                        i.setClass(getActivity(), ItemHandlingActivity.class);
+                        i.putExtra("KEY_BARCODE_NUMBER", barcodes.valueAt(0).displayValue);
+                        startActivity(i);
+                    }
 
                     barcodeInfo.post(new Runnable() {    // Use the post method of the TextView
                         public void run() {

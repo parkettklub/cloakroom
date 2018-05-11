@@ -9,20 +9,20 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.Toast;
 
+import com.esotericsoftware.minlog.Log;
 import com.orm.SugarDb;
 
 import java.io.IOException;
 
-import parkettklub.smartcheckroom.adapter.LauncherPagerAdapter;
+import parkettklub.smartcheckroom.adapter.FragmentPagerAdapter;
 import parkettklub.smartcheckroom.core.Core;
 import parkettklub.smartcheckroom.core.driver.networkdriver.NetworkDriver;
-import parkettklub.smartcheckroom.core.driver.networkdriver.Request;
+
+import static com.esotericsoftware.minlog.Log.LEVEL_DEBUG;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,14 +41,15 @@ public class MainActivity extends AppCompatActivity {
         //setSupportActionBar(toolbar);
 
         pager = (ViewPager) findViewById(R.id.pager);
-        pagerAdapter = new LauncherPagerAdapter(getSupportFragmentManager());
+        pagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
 
         SugarDb db = new SugarDb(this);
         Core.fillDataBase();
 
-        String networkString = Core.findServer();
+        String networkString = Core.findServer(this.getApplicationContext());
         Toast.makeText(this, networkString, Toast.LENGTH_LONG).show();
+        Log.set(LEVEL_DEBUG);
     }
 
     @Override

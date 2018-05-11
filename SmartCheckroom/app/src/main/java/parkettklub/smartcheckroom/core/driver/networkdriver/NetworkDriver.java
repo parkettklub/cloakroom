@@ -1,5 +1,7 @@
 package parkettklub.smartcheckroom.core.driver.networkdriver;
 
+import android.content.Context;
+
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
@@ -29,7 +31,7 @@ public class NetworkDriver implements NetworkDriverI {
     }
 
     @Override
-    public boolean findServer() throws IOException {
+    public boolean findServer(final Context aContext) throws IOException {
 
         client = new NetworkClient(UDP_PORT, TIMEOUT, TCP_PORT);
         if(client.findServer(UDP_PORT, TIMEOUT, TCP_PORT)) {

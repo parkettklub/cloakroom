@@ -1,11 +1,15 @@
 package parkettklub.smartcheckroom.core;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import java.io.IOException;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import parkettklub.smartcheckroom.ItemHandlingActivity;
 import parkettklub.smartcheckroom.core.driver.dbdriver.DataBaseDriverI;
 import parkettklub.smartcheckroom.core.driver.dbdriver.ManageDB;
 import parkettklub.smartcheckroom.core.driver.networkdriver.NetworkDriver;
@@ -236,12 +240,12 @@ public class Core {
         return true;
     }
 
-    public static String findServer(){
+    public static String findServer(Context applicationContext){
 
         String sNetwork = "Error";
 
         try {
-            if(NETWORK_DRIVER.findServer())
+            if(NETWORK_DRIVER.findServer(applicationContext))
             {
                 sNetwork = "Client";
             }
@@ -255,4 +259,5 @@ public class Core {
 
         return sNetwork;
     }
+
 }
