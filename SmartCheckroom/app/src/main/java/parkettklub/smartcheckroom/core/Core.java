@@ -268,4 +268,25 @@ public class Core {
         return sNetwork;
     }
 
+    public static List<Request> syncDataBase() {
+
+        List<Request> requests = new ArrayList<Request>();
+
+        List<Item> items = DATA_BASE_DRIVER.listAllItems();
+
+        for(Item item : items)
+        {
+            Request request = new Request();
+            request.setItem(item);
+
+            requests.add(request);
+            //NETWORK_DRIVER.sendData(request);
+        }
+        return requests;
+    }
+
+    public static String whoAmI()
+    {
+        return NETWORK_DRIVER.whoAmI();
+    }
 }

@@ -6,6 +6,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
 import java.io.IOException;
+import java.util.List;
 
 import parkettklub.smartcheckroom.core.Core;
 
@@ -46,6 +47,17 @@ public class NetworkDriver implements NetworkDriverI {
                     }
                 }
             });
+            client.addListener(new Listener(){
+                @Override
+                public void disconnected(Connection connection) {
+                    super.disconnected(connection);
+                    try {
+                        findServer(aContext);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
 
             return true;
         }
@@ -61,6 +73,18 @@ public class NetworkDriver implements NetworkDriverI {
                         response.setOK(Core.freshItem(request.getItem()));
                         connection.sendTCP(response);
                         server.sendToAllTCP(request);
+                    }
+                }
+            });
+            server.addListener(new Listener(){
+                @Override
+                public void connected(Connection connection) {
+                    super.connected(connection);
+
+                    List<Request> requests = Core.syncDataBase();
+
+                    for(Request request : requests) {
+                        connection.sendTCP(request);
                     }
                 }
             });
@@ -103,6 +127,22 @@ public class NetworkDriver implements NetworkDriverI {
     }
 
     @Override
+    public String whoAmI() {
+
+        String iAm = "No One!";
+
+        if(server != null)
+        {
+            iAm = "Server";
+        }
+        else if(client != null)
+        {
+            iAm = "Client";
+        }
+        return iAm;
+    }
+
+    @Override
     public void runServer() throws IOException {
         server = new NetworkServer(TCP_PORT, UDP_PORT);
         server.addListener(new Listener() {
@@ -113,6 +153,18 @@ public class NetworkDriver implements NetworkDriverI {
                     response.setOK(Core.freshItem(request.getItem()));
                     connection.sendTCP(response);
                     server.sendToAllTCP(request);
+                }
+            }
+        });
+        server.addListener(new Listener(){
+            @Override
+            public void connected(Connection connection) {
+                super.connected(connection);
+
+                List<Request> requests = Core.syncDataBase();
+
+                for(Request request : requests) {
+                    connection.sendTCP(request);
                 }
             }
         });

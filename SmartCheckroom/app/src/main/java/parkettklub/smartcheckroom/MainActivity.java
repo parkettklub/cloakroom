@@ -45,11 +45,24 @@ public class MainActivity extends AppCompatActivity {
         pager.setAdapter(pagerAdapter);
 
         SugarDb db = new SugarDb(this);
-        Core.fillDataBase();
+
 
         String networkString = Core.findServer(this.getApplicationContext());
         Toast.makeText(this, networkString, Toast.LENGTH_LONG).show();
         Log.set(LEVEL_DEBUG);
+        if(networkString.equals("Server")) {
+            Core.fillDataBase();
+        }
+        /*
+        else
+        {
+            if(networkString.equals("Client"))
+            {
+                Core.syncDataBase();
+            }
+        }
+        */
+
     }
 
     @Override
@@ -80,6 +93,16 @@ public class MainActivity extends AppCompatActivity {
             //i.setClass(getActivity(), ItemCreateActivity.class);
             i.setClass(this, CheckroomStateActivity.class);
             startActivity(i);
+            return true;
+        }
+
+        if (id == R.id.action_whoAmI) {
+            Toast.makeText(this, Core.whoAmI(), Toast.LENGTH_LONG).show();
+            return true;
+        }
+
+        if (id == R.id.action_settings) {
+            Toast.makeText(this, "Settings selected", Toast.LENGTH_LONG).show();
             return true;
         }
 

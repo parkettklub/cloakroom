@@ -255,9 +255,6 @@ public class ItemHandlingActivity extends AppCompatActivity {
                         Button btnCancel = (Button) findViewById(R.id.btnCancelCreateCheckroomItem);
                         btnCancel.setOnClickListener(new View.OnClickListener() {
                             public void onClick(View v) {
-                                if (Core.newItem) {
-                                    Core.reserveItem(Long.valueOf(npCheckroomNumber.getValue()), false);
-                                }
                                 finish();
                             }
                         });

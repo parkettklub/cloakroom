@@ -15,16 +15,16 @@
         android:title="@string/action_checkroomState"
         app:showAsAction="never" />
 
-
     <item
-        android:id="@+id/action_Server"
+        android:id="@+id/action_whoAmI"
         android:orderInCategory="100"
-        android:title="Server"
+        android:title="@string/action_whoAmI"
         app:showAsAction="never" />
 
+
     <item
-        android:id="@+id/action_Client"
+        android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:title="Client"
+        android:title="@string/action_settings"
         app:showAsAction="never" />
 </menu>

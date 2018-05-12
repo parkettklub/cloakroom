@@ -10,4 +10,6 @@ public interface NetworkDriverI {
     public void runClient() throws IOException;
     public void runServer() throws IOException;
     public boolean sendData(Request request);
+
+    public String whoAmI();
 }

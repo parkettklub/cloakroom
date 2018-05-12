@@ -100,5 +100,6 @@
     <string name="no_transactions">No transactions</string>
     <string name="action_statistics">Stats</string>
     <string name="action_checkroomState">CheckroomState</string>
+    <string name="action_whoAmI">WhoAmI?</string>
 
 </resources>

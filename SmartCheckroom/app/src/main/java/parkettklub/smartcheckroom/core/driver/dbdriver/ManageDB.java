@@ -122,10 +122,13 @@ public class ManageDB implements DataBaseDriverI {
 
         for (CheckroomItem item : items) {
 
-            if (item.getDueReserved() == false && (item.getId() % 2) == 1) {
+            if (item.getDueReserved() == false) {
                 ids.add(item.getId());
             }
         }
+
+        // FIXME: second free
+        ids.remove(0);
 
         return ids;
     }
@@ -164,15 +167,31 @@ public class ManageDB implements DataBaseDriverI {
     public void addItem(Item aItem, Boolean aNewItem) {
         CheckroomItem dbItem = CheckroomItem.findById(CheckroomItem.class, aItem.getCheckroomNum());
 
-        dbItem.setDueBarcodeNumber(aItem.getBarcode());
-        dbItem.setDueReserved(aNewItem);
-        dbItem.setDueCoatNumber(aItem.getCoatNum());
-        dbItem.setDueBagNumber(aItem.getBagNum());
-        dbItem.setDueShoeNumber(aItem.getShoeNum());
-        dbItem.setDueOtherNumber(aItem.getOtherNum());
-        dbItem.setDueDate(new Date(System.currentTimeMillis()));
+        if(null != dbItem) {
+            dbItem.setDueBarcodeNumber(aItem.getBarcode());
+            dbItem.setDueReserved(aNewItem);
+            dbItem.setDueCoatNumber(aItem.getCoatNum());
+            dbItem.setDueBagNumber(aItem.getBagNum());
+            dbItem.setDueShoeNumber(aItem.getShoeNum());
+            dbItem.setDueOtherNumber(aItem.getOtherNum());
+            dbItem.setDueDate(new Date(System.currentTimeMillis()));
 
-        dbItem.save();
+            dbItem.save();
+        }
+        else
+        {
+            dbItem = new CheckroomItem();
+
+            dbItem.setDueBarcodeNumber(aItem.getBarcode());
+            dbItem.setDueReserved(aNewItem);
+            dbItem.setDueCoatNumber(aItem.getCoatNum());
+            dbItem.setDueBagNumber(aItem.getBagNum());
+            dbItem.setDueShoeNumber(aItem.getShoeNum());
+            dbItem.setDueOtherNumber(aItem.getOtherNum());
+            dbItem.setDueDate(new Date(System.currentTimeMillis()));
+
+            dbItem.save();
+        }
     }
 
     @Override
