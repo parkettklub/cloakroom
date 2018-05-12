@@ -31,4 +31,6 @@ public interface DataBaseDriverI {
     public List<Transaction> listNoneUpdatedTransactions();
 
     public boolean isReserved(Long aCheckroomNum);
+
+    List<Item> listAllItems();
 }

@@ -96,7 +96,9 @@
     <string name="shoeNum">Shoe: %1$d</string>
     <string name="otherNum">Other: %1$d</string>
 
+    <string name="no_items">No items</string>
     <string name="no_transactions">No transactions</string>
     <string name="action_statistics">Stats</string>
+    <string name="action_checkroomState">CheckroomState</string>
 
 </resources>

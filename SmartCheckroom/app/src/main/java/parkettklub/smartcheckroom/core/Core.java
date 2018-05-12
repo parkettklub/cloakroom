@@ -99,7 +99,9 @@ public class Core {
 
     public static boolean isReserved(Long aCheckroomNum)
     {
-        return DATA_BASE_DRIVER.isReserved(aCheckroomNum);
+        Long checkroomId = Long.valueOf(values[aCheckroomNum.intValue()]);
+
+        return DATA_BASE_DRIVER.isReserved(checkroomId);
     }
 
     public static void reserveItem(Long aCheckroomNum, boolean aIsReserved) {
@@ -185,6 +187,12 @@ public class Core {
         }).start();
 
         return checkroomId;
+
+    }
+
+    public static List<Item> listAllItems() {
+
+        return DATA_BASE_DRIVER.listAllItems();
 
     }
 

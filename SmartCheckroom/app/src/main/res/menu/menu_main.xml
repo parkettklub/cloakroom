@@ -10,6 +10,13 @@
         app:showAsAction="always" />
 
     <item
+        android:id="@+id/action_checkroomState"
+        android:orderInCategory="100"
+        android:title="@string/action_checkroomState"
+        app:showAsAction="never" />
+
+
+    <item
         android:id="@+id/action_Server"
         android:orderInCategory="100"
         android:title="Server"

@@ -58,7 +58,7 @@ public class ItemHandlingActivity extends AppCompatActivity {
                         npCheckroomNumber = (NumberPicker) findViewById(R.id.npCheckroomNum);
 
                         npCheckroomNumber.setMinValue(0);
-                        npCheckroomNumber.setMaxValue(Core.numbers.size()-1);
+                        npCheckroomNumber.setMaxValue(Core.numbers.size() - 1);
 
                         //Specify the NumberPicker data source as array elements
                         npCheckroomNumber.setDisplayedValues(Core.values);
@@ -66,13 +66,16 @@ public class ItemHandlingActivity extends AppCompatActivity {
                         npCheckroomNumber.setWrapSelectorWheel(false);
 
                         //Set a value change listener for NumberPicker
+                        /*
                         npCheckroomNumber.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
                             @Override
                             public void onValueChange(NumberPicker picker, int oldVal, int newVal){
+
+                                Core.reserveItem(Long.valueOf(oldVal), false);
                                 if(Core.isReserved(Long.valueOf(newVal)))
                                 {
                                     AlertDialog.Builder alertbox =
-                                            new AlertDialog.Builder(getApplicationContext());
+                                            new AlertDialog.Builder(picker.getContext());
                                     alertbox.setMessage("This Checkroom Number is reserved! \n Please change to another value!");
                                     alertbox.setNeutralButton("Ok",
                                             new DialogInterface.OnClickListener() {
@@ -83,13 +86,15 @@ public class ItemHandlingActivity extends AppCompatActivity {
                                             });
                                     alertbox.show();
                                 }
-                                if(Core.newItem)
-                                {
-                                    Core.reserveItem(Long.valueOf(oldVal), false);
-                                    Core.reserveItem(Long.valueOf(newVal), true);
+                                else {
+                                    if (Core.newItem) {
+                                        Core.reserveItem(Long.valueOf(newVal), true);
+                                    }
                                 }
+
                             }
                         });
+                        */
 
                         editCoatNumber = (TextView) findViewById(R.id.coatNum);
                         editCoatNumber.setText(Core.coatNum.toString());
@@ -105,8 +110,7 @@ public class ItemHandlingActivity extends AppCompatActivity {
                         decCoat = (Button) findViewById(R.id.btnCoatMinus);
                         decCoat.setOnClickListener(new View.OnClickListener() {
                             public void onClick(View v) {
-                                if(Core.coatNum != 0)
-                                {
+                                if (Core.coatNum != 0) {
                                     Core.coatNum--;
                                     editCoatNumber.setText(Core.coatNum.toString());
                                 }
@@ -171,32 +175,53 @@ public class ItemHandlingActivity extends AppCompatActivity {
                             }
                         });
 
+                        /*
                         if(Core.newItem)
                         {
-                            Core.reserveItem(Long.valueOf(npCheckroomNumber.getValue()), true);
+                            Long checkroomValue = Long.valueOf(npCheckroomNumber.getValue());
+
+                            if(!Core.isReserved(checkroomValue))
+                            {
+                                Core.reserveItem(checkroomValue, true);
+                            }
                         }
+                        */
 
                         // A gombok esemenykezeloinek beallitasa
                         Button btnOk = (Button) findViewById(R.id.btnCreateCheckroomItem);
-                        if(Core.newItem) {
+                        if (Core.newItem) {
                             btnOk.setText("ADD");
-                        }
-                        else
-                        {
+                        } else {
                             btnOk.setText("DELETE");
                         }
                         btnOk.setOnClickListener(new View.OnClickListener() {
                             public void onClick(View v) {
                                 Long retValue;
 
-                                if(Core.newItem) {
-                                    retValue = Core.handleItem(Long.valueOf(npCheckroomNumber.getValue()), "ADDED");
-                                    //Core.handleItem((Long) spnrCheckroomItemNumber.getSelectedItem(), "ADDED");
-                                    //Toast.makeText(ItemHandlingActivity.this, "Added", Toast.LENGTH_LONG).show();
-                                    showAlertMessage("Added: " + String.valueOf(retValue));
-                                }
-                                else
-                                {
+                                if (Core.newItem) {
+                                    Long checkroomValue = Long.valueOf(npCheckroomNumber.getValue());
+
+                                    if (!Core.isReserved(checkroomValue)) {
+                                        retValue = Core.handleItem(checkroomValue, "ADDED");
+                                        //Core.handleItem((Long) spnrCheckroomItemNumber.getSelectedItem(), "ADDED");
+                                        //Toast.makeText(ItemHandlingActivity.this, "Added", Toast.LENGTH_LONG).show();
+                                        showAlertMessage("Added: " + String.valueOf(retValue));
+                                    }
+                                    else
+                                    {
+                                        AlertDialog.Builder alertbox =
+                                                new AlertDialog.Builder(v.getContext());
+                                        alertbox.setMessage("This Checkroom Number is reserved! \n Please change to another value!");
+                                        alertbox.setNeutralButton("Ok",
+                                                new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface arg0,
+                                                                        int arg1) {
+
+                                                    }
+                                                });
+                                        alertbox.show();
+                                    }
+                                } else {
                                     retValue = Core.handleItem(Long.valueOf(npCheckroomNumber.getValue()), "DELETED");
                                     //Toast.makeText(ItemHandlingActivity.this, "Deleted", Toast.LENGTH_LONG).show();
                                     showAlertMessage("Deleted: " + String.valueOf(retValue));
@@ -206,12 +231,10 @@ public class ItemHandlingActivity extends AppCompatActivity {
                             }
                         });
 
-                        Button btnUpdate = (Button) findViewById(R.id.btnUpdateCheckroomItem );
-                        if(Core.newItem) {
+                        Button btnUpdate = (Button) findViewById(R.id.btnUpdateCheckroomItem);
+                        if (Core.newItem) {
                             btnUpdate.setVisibility(View.INVISIBLE);
-                        }
-                        else
-                        {
+                        } else {
                             btnUpdate.setVisibility(View.VISIBLE);
                             btnUpdate.setOnClickListener(new View.OnClickListener() {
                                 public void onClick(View v) {
@@ -232,7 +255,7 @@ public class ItemHandlingActivity extends AppCompatActivity {
                         Button btnCancel = (Button) findViewById(R.id.btnCancelCreateCheckroomItem);
                         btnCancel.setOnClickListener(new View.OnClickListener() {
                             public void onClick(View v) {
-                                if(Core.newItem) {
+                                if (Core.newItem) {
                                     Core.reserveItem(Long.valueOf(npCheckroomNumber.getValue()), false);
                                 }
                                 finish();

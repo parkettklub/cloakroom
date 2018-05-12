@@ -75,6 +75,15 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
+        if (id == R.id.action_checkroomState) {
+            Intent i = new Intent();
+            //i.setClass(getActivity(), ItemCreateActivity.class);
+            i.setClass(this, CheckroomStateActivity.class);
+            startActivity(i);
+            return true;
+        }
+
+        /*
         if (id == R.id.action_Server) {
 
             NetworkDriver network = NetworkDriver.getInstance();
@@ -100,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         }
-
+        */
         return super.onOptionsItemSelected(item);
     }
 

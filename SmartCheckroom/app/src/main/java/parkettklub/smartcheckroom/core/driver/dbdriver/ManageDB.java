@@ -135,7 +135,7 @@ public class ManageDB implements DataBaseDriverI {
     public void fillDataBase() {
         List<CheckroomItem> checkroomItemsInDb = CheckroomItem.listAll(CheckroomItem.class);
 
-        for (int i = checkroomItemsInDb.size(); i < 300; i++) {
+        for (int i = checkroomItemsInDb.size(); i < 100; i++) {
             CheckroomItem item = new CheckroomItem(false, "", 0, 0, 0, 0,
                     new Date(System.currentTimeMillis()));
             item.save();
@@ -180,6 +180,31 @@ public class ManageDB implements DataBaseDriverI {
     {
         CheckroomItem item = CheckroomItem.findById(CheckroomItem.class, aCheckroomNum);
         return item.getDueReserved();
+    }
+
+    @Override
+    public List<Item> listAllItems() {
+        List<Item> items = new ArrayList<Item>();
+
+        List<CheckroomItem> checkroomItems = CheckroomItem.listAll(CheckroomItem.class);
+
+        //CheckroomTransaction.listAll(CheckroomTransaction.class);
+
+        for(CheckroomItem item : checkroomItems)
+        {
+            Item nextItem = new Item();
+
+            nextItem.setCheckroomNum(item.getId());
+            nextItem.setBarcode(item.getDueBarcodeNumber());
+            nextItem.setCoatNum(item.getDueCoatNumber());
+            nextItem.setBagNum(item.getDueBagNumber());
+            nextItem.setShoeNum(item.getDueShoeNumber());
+            nextItem.setOtherNum(item.getDueOtherNumber());
+
+            items.add(nextItem);
+        }
+
+        return items;
     }
 
 
