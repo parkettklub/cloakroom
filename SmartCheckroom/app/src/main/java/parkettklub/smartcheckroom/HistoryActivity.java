@@ -34,7 +34,7 @@ public class HistoryActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                final List<Transaction> transactions =  Core.listAllTransactions();
+                final List<Transaction> transactions =  Core.listMyTransactions();
 
                 //final List<CheckroomTransaction> transactions = CheckroomTransaction.listAll(CheckroomTransaction.class);
                 runOnUiThread(new Runnable() {

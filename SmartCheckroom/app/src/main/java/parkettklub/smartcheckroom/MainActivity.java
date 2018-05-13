@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         {
             if(networkString.equals("Client"))
             {
-                Core.syncDataBase();
+                Core.syncItemDataBase();
             }
         }
         */

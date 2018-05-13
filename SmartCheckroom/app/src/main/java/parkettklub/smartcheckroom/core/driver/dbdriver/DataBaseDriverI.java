@@ -24,7 +24,7 @@ public interface DataBaseDriverI {
 
     public void addItem(Item aItem, Boolean aNewItem);
 
-    public void addNewTransaction(String aTransactionType, String aBarcode, Long aCheckroomNum, Integer aAllThings, Date aDate);
+    public void addNewTransaction(boolean aMyTransaction, String aTransactionType, String aBarcode, Long aCheckroomNum, Integer aAllThings, Date aDate);
 
     public List<Transaction> listAllTransactions();
 
@@ -33,4 +33,6 @@ public interface DataBaseDriverI {
     public boolean isReserved(Long aCheckroomNum);
 
     List<Item> listAllItems();
+
+    List<Transaction> listMyTransactions();
 }

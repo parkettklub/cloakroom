@@ -5,9 +5,11 @@ import com.esotericsoftware.kryonet.Client;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.Date;
 import java.sql.Time;
 
 import parkettklub.smartcheckroom.core.Item;
+import parkettklub.smartcheckroom.core.Transaction;
 
 public class NetworkClient extends Client {
     private boolean received;
@@ -18,6 +20,8 @@ public class NetworkClient extends Client {
         kryo.register(Request.class);
         kryo.register(Response.class);
         kryo.register(Item.class);
+        kryo.register(Transaction.class);
+        kryo.register(Date.class);
         kryo.register(Time.class);
         start();
         /*

@@ -31,6 +31,7 @@ public class Core {
     public static ArrayList<Long> numbers;
 
     private static Item coreItem = new Item();
+
     public static String[] values;
 
     //public static CheckroomItem item;
@@ -144,7 +145,7 @@ public class Core {
 
     }
 
-    public static Long handleItem(Long aCheckroomNum, String aTransactionType) {
+    public static Long handleItem(Long aCheckroomNum, final String aTransactionType) {
 
         final Long checkroomId = Long.valueOf(values[aCheckroomNum.intValue()]);
         final String transactionType = aTransactionType;
@@ -176,11 +177,16 @@ public class Core {
 
                 DATA_BASE_DRIVER.addItem(coreItem, newItem);
 
-                DATA_BASE_DRIVER.addNewTransaction(transactionType, barcodeNumber, checkroomId,
-                        allThings, new Date(System.currentTimeMillis()));
+                Date newDate = new Date(System.currentTimeMillis());
+
+                DATA_BASE_DRIVER.addNewTransaction(true, transactionType, barcodeNumber, checkroomId,
+                        allThings, newDate);
 
                 Request request = new Request();
                 request.setItem(coreItem);
+
+                Transaction newTransaction = new Transaction(transactionType, barcodeNumber, checkroomId, allThings, newDate);
+                request.setTransaction(newTransaction);
                 NETWORK_DRIVER.sendData(request);
 
             }
@@ -199,6 +205,12 @@ public class Core {
     public static List<Transaction> listAllTransactions() {
 
         return DATA_BASE_DRIVER.listAllTransactions();
+
+    }
+
+    public static List<Transaction> listMyTransactions() {
+
+        return DATA_BASE_DRIVER.listMyTransactions();
 
     }
 
@@ -268,7 +280,7 @@ public class Core {
         return sNetwork;
     }
 
-    public static List<Request> syncDataBase() {
+    public static List<Request> syncItemDataBase() {
 
         List<Request> requests = new ArrayList<Request>();
 
@@ -288,5 +300,29 @@ public class Core {
     public static String whoAmI()
     {
         return NETWORK_DRIVER.whoAmI();
+    }
+
+    public static void addTransaction(Transaction transaction) {
+        DATA_BASE_DRIVER.addNewTransaction(false, transaction.getTransactionType(),
+                transaction.getBarcode(), transaction.getCheckroomNum(), transaction.getStuff(),
+                transaction.getTransactionTime());
+    }
+
+    public static List<Request> syncTransactionDataBase() {
+
+        List<Request> requests = new ArrayList<Request>();
+
+        List<Transaction> transactions = DATA_BASE_DRIVER.listAllTransactions();
+
+        for(Transaction transaction : transactions)
+        {
+            Request request = new Request();
+            request.setTransaction(transaction);
+
+            requests.add(request);
+            //NETWORK_DRIVER.sendData(request);
+        }
+        return requests;
+
     }
 }

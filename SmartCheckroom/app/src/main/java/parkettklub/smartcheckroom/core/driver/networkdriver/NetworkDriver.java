@@ -43,7 +43,12 @@ public class NetworkDriver implements NetworkDriverI {
                         client.setResponse((Response) object);
                     }
                     if (object instanceof Request) {
-                        Core.freshItem(((Request) object).getItem());
+                        if(null != ((Request) object).getItem()) {
+                            Core.freshItem(((Request) object).getItem());
+                        }
+                        if(null != ((Request) object).getTransaction()) {
+                            Core.addTransaction(((Request) object).getTransaction());
+                        }
                     }
                 }
             });
@@ -71,6 +76,9 @@ public class NetworkDriver implements NetworkDriverI {
                         Request request = (Request) object;
                         Response response = new Response();
                         response.setOK(Core.freshItem(request.getItem()));
+                        if(null != ((Request) object).getTransaction()) {
+                            Core.addTransaction(((Request) object).getTransaction());
+                        }
                         connection.sendTCP(response);
                         server.sendToAllTCP(request);
                     }
@@ -81,7 +89,13 @@ public class NetworkDriver implements NetworkDriverI {
                 public void connected(Connection connection) {
                     super.connected(connection);
 
-                    List<Request> requests = Core.syncDataBase();
+                    List<Request> requests = Core.syncItemDataBase();
+
+                    for(Request request : requests) {
+                        connection.sendTCP(request);
+                    }
+
+                    requests = Core.syncTransactionDataBase();
 
                     for(Request request : requests) {
                         connection.sendTCP(request);
@@ -161,7 +175,7 @@ public class NetworkDriver implements NetworkDriverI {
             public void connected(Connection connection) {
                 super.connected(connection);
 
-                List<Request> requests = Core.syncDataBase();
+                List<Request> requests = Core.syncItemDataBase();
 
                 for(Request request : requests) {
                     connection.sendTCP(request);

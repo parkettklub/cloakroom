@@ -228,13 +228,17 @@ public class ManageDB implements DataBaseDriverI {
 
 
     @Override
-    public void addNewTransaction(String aTransactionType, String aBarcode, Long aCheckroomNum, Integer aAllThings, Date aDate) {
+    public void addNewTransaction(boolean aMyTransaction, String aTransactionType, String aBarcode, Long aCheckroomNum, Integer aAllThings, Date aDate) {
 
-        CheckroomTransaction newTransaction = new CheckroomTransaction(aTransactionType, aBarcode,
-                aCheckroomNum, aAllThings, new Date(System.currentTimeMillis()));
+        List <CheckroomTransaction> transactions = CheckroomTransaction.find(CheckroomTransaction.class,
+                "due_date == ?", String.valueOf(aDate.getTime()));
 
-        newTransaction.save();
+        if(transactions.size() == 0) {
+            CheckroomTransaction newTransaction = new CheckroomTransaction(aMyTransaction, aTransactionType, aBarcode,
+                    aCheckroomNum, aAllThings, aDate);
 
+            newTransaction.save();
+        }
     }
 
     @Override
@@ -259,6 +263,34 @@ public class ManageDB implements DataBaseDriverI {
             nextTransaction.setTransactionTime(checkroomTransactions.get(i).getDueDate());
 
             transactions.add(nextTransaction);
+        }
+
+        return transactions;
+    }
+
+    @Override
+    public List<Transaction> listMyTransactions() {
+        List<Transaction> transactions = new ArrayList<Transaction>();
+
+        List<CheckroomTransaction> checkroomTransactions = CheckroomTransaction.find(
+                CheckroomTransaction.class, null, null, null,
+                "id desc", null);
+
+        //CheckroomTransaction.listAll(CheckroomTransaction.class);
+
+        for(int i =0; i < checkroomTransactions.size(); i++)
+        {
+            if(checkroomTransactions.get(i).isMyTransaction()) {
+                Transaction nextTransaction = new Transaction();
+
+                nextTransaction.setTransactionType(checkroomTransactions.get(i).getDueTransactionType());
+                nextTransaction.setBarcode(checkroomTransactions.get(i).getDueBarcodeNumber());
+                nextTransaction.setCheckroomNum(checkroomTransactions.get(i).getDueCheckroomNumber());
+                nextTransaction.setStuff(checkroomTransactions.get(i).getDueCoatNumber());
+                nextTransaction.setTransactionTime(checkroomTransactions.get(i).getDueDate());
+
+                transactions.add(nextTransaction);
+            }
         }
 
         return transactions;

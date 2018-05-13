@@ -7,43 +7,47 @@
     android:orientation="vertical"
     tools:context="parkettklub.smartcheckroom.HistoryActivity">
 
-    <TableLayout
+    <LinearLayout
         android:id="@+id/transactionTable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:collapseColumns="*">
+        android:orientation="horizontal"
+        android:weightSum="4">
 
-        <TableRow>
 
             <TextView
-                android:layout_width="100dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="Transaction \n type"
                 android:gravity="center_horizontal"
                 android:textSize="@dimen/lower_text_size"/>
 
             <TextView
-                android:layout_width="100dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="Checkroom \n Number"
                 android:gravity="center_horizontal"
                 android:textSize="@dimen/lower_text_size"/>
 
             <TextView
-                android:layout_width="80dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="Stuff \n Number"
                 android:gravity="center_horizontal"
                 android:textSize="@dimen/lower_text_size"/>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="Time"
+                android:gravity="center_horizontal"
                 android:textSize="@dimen/lower_text_size"/>
-        </TableRow>
 
-    </TableLayout>
+    </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
