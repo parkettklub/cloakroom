@@ -32,6 +32,16 @@ public class NetworkDriver implements NetworkDriverI {
     }
 
     @Override
+    public void close() {
+        if(null != server) {
+            server.close();
+        }
+        if(null != client) {
+            client.close();
+        }
+    }
+
+    @Override
     public boolean findServer(final Context aContext) throws IOException {
 
         client = new NetworkClient(UDP_PORT, TIMEOUT, TCP_PORT);

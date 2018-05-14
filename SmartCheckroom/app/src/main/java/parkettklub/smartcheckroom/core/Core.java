@@ -1,6 +1,14 @@
 package parkettklub.smartcheckroom.core;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.support.v7.app.AlertDialog;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -19,6 +27,8 @@ public class Core {
 
     private static final DataBaseDriverI DATA_BASE_DRIVER = ManageDB.getInstance();
     private static final NetworkDriver NETWORK_DRIVER = NetworkDriver.getInstance();
+
+    public static String networkState = new String();
 
     public static String barcodeNumber;
 
@@ -40,8 +50,7 @@ public class Core {
         //item = CheckroomItem.findById(CheckroomItem.class, checkroomNumber);
     }
 
-    public static void fillDataBase()
-    {
+    public static void fillDataBase() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -62,15 +71,14 @@ public class Core {
 
         final Long checkroomNumber = DATA_BASE_DRIVER.findItemByBarcode(barcodeNumber);
 
-        if(checkroomNumber == null) {
+        if (checkroomNumber == null) {
             newItem = true;
             numbers = DATA_BASE_DRIVER.getFreeIds();
 
             //Initializing a new string array with elements
             values = new String[Core.numbers.size()];
 
-            for(int i = 0; i < Core.numbers.size(); i++)
-            {
+            for (int i = 0; i < Core.numbers.size(); i++) {
                 values[i] = Core.numbers.get(i).toString();
             }
 
@@ -78,9 +86,7 @@ public class Core {
             bagNum = 0;
             shoeNum = 0;
             otherNum = 0;
-        }
-        else
-        {
+        } else {
             newItem = false;
 
             numbers = new ArrayList<Long>();
@@ -98,8 +104,7 @@ public class Core {
         }
     }
 
-    public static boolean isReserved(Long aCheckroomNum)
-    {
+    public static boolean isReserved(Long aCheckroomNum) {
         Long checkroomId = Long.valueOf(values[aCheckroomNum.intValue()]);
 
         return DATA_BASE_DRIVER.isReserved(checkroomId);
@@ -115,12 +120,9 @@ public class Core {
 
         coreItem.setCheckroomNum(checkroomId);
 
-        if(isReserved)
-        {
+        if (isReserved) {
             coreItem.setBarcode(barcodeNumber);
-        }
-        else
-        {
+        } else {
             coreItem.setBarcode("");
         }
 
@@ -154,12 +156,9 @@ public class Core {
 
         coreItem.setCheckroomNum(checkroomId);
 
-        if(newItem)
-        {
+        if (newItem) {
             coreItem.setBarcode(barcodeNumber);
-        }
-        else
-        {
+        } else {
             coreItem.setBarcode("");
         }
 
@@ -222,14 +221,10 @@ public class Core {
 
         List<Integer> guestNum = new ArrayList<Integer>();
 
-        for(Transaction transaction : transactions)
-        {
-            if(transaction.getTransactionType().equals("ADDED"))
-            {
+        for (Transaction transaction : transactions) {
+            if (transaction.getTransactionType().equals("ADDED")) {
                 guestCntr++;
-            }
-            else
-            {
+            } else {
                 guestCntr--;
             }
 
@@ -247,8 +242,7 @@ public class Core {
 
         List<Date> times = new ArrayList<Date>();
 
-        for(Transaction transaction : transactions)
-        {
+        for (Transaction transaction : transactions) {
             times.add(transaction.getTransactionTime());
         }
 
@@ -256,28 +250,29 @@ public class Core {
     }
 
     public static boolean freshItem(Item item) {
-        DATA_BASE_DRIVER.addItem(item,  !item.getBarcode().equals(""));
+        DATA_BASE_DRIVER.addItem(item, !item.getBarcode().equals(""));
         return true;
     }
 
-    public static String findServer(Context applicationContext){
+    public static void findServer(final Context context, final Handler handler) {
 
-        String sNetwork = "Error";
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    NETWORK_DRIVER.findServer(context);
 
-        try {
-            if(NETWORK_DRIVER.findServer(applicationContext))
-            {
-                sNetwork = "Client";
+                    Message message = Message.obtain(); //get null message
+                    Bundle bundle = new Bundle();
+                    bundle.putString("NetworkState", whoAmI());
+                    message.setData(bundle);
+                    //use the handler to send message
+                    handler.sendMessage(message);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-            else
-            {
-                sNetwork = "Server";
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return sNetwork;
+        }).start();
     }
 
     public static List<Request> syncItemDataBase() {
@@ -286,8 +281,7 @@ public class Core {
 
         List<Item> items = DATA_BASE_DRIVER.listAllItems();
 
-        for(Item item : items)
-        {
+        for (Item item : items) {
             Request request = new Request();
             request.setItem(item);
 
@@ -297,8 +291,7 @@ public class Core {
         return requests;
     }
 
-    public static String whoAmI()
-    {
+    public static String whoAmI() {
         return NETWORK_DRIVER.whoAmI();
     }
 
@@ -314,8 +307,7 @@ public class Core {
 
         List<Transaction> transactions = DATA_BASE_DRIVER.listAllTransactions();
 
-        for(Transaction transaction : transactions)
-        {
+        for (Transaction transaction : transactions) {
             Request request = new Request();
             request.setTransaction(transaction);
 
@@ -324,5 +316,50 @@ public class Core {
         }
         return requests;
 
+    }
+
+    public static void closeNetworkConnections() {
+        NETWORK_DRIVER.close();
+    }
+
+    public static void showAlertMessage(final Context context , final String aMessage) {
+
+
+        final Handler handler = new Handler(Looper.getMainLooper()) {
+
+            @Override
+            public void handleMessage(Message msg) {
+                Bundle bb = msg.getData();
+                String str = bb.getString("NetworkState");
+                Toast.makeText(context, str, Toast.LENGTH_LONG).show();
+                //Core.showAlertMessage(context, str);
+            }
+        };
+
+
+        AlertDialog.Builder alertbox =
+                new AlertDialog.Builder(context);
+        alertbox.setMessage(aMessage);
+        alertbox.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0,
+                                        int arg1) {
+// Ok kiválasztva
+                    }
+                });
+        if (aMessage.contains("Server")) {
+            alertbox.setNegativeButton("Find Server",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface arg0,
+                                            int arg1) {
+
+                            Core.closeNetworkConnections();
+                            Core.findServer(context, handler);
+
+                            //Toast.makeText(getApplicationContext(), Core.whoAmI(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+        }
+        alertbox.show();
     }
 }

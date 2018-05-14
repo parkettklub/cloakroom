@@ -12,4 +12,6 @@ public interface NetworkDriverI {
     public boolean sendData(Request request);
 
     public String whoAmI();
+
+    public void close();
 }

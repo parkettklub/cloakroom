@@ -1,7 +1,11 @@
 package parkettklub.smartcheckroom;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Message;
 import android.os.StrictMode;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -34,9 +38,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
@@ -44,7 +45,13 @@ public class MainActivity extends AppCompatActivity {
         pagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
 
-        Toast.makeText(this, Core.whoAmI(), Toast.LENGTH_LONG).show();
+
+        Log.set(LEVEL_DEBUG);
+
+        if(Core.networkState.equals("Server"))
+        {
+            Core.showAlertMessage(this, Core.networkState);
+        }
 
         /*
         SugarDb db = new SugarDb(this);
@@ -92,7 +99,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (id == R.id.action_whoAmI) {
-            Toast.makeText(this, Core.whoAmI(), Toast.LENGTH_LONG).show();
+
+            String networkState = Core.whoAmI();
+
+            if(networkState.equals("Server"))
+            {
+                Core.showAlertMessage(this,"You are a "+ networkState +"! \n\n" +
+                        "If you think you should be a Client, then press Find Server button!");
+            }
+            else
+            {
+                Core.showAlertMessage(this,"You are a "+ networkState +"!");
+            }
+
+            //Toast.makeText(this, networkState, Toast.LENGTH_LONG).show();
             return true;
         }
 
@@ -100,48 +120,61 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Settings selected", Toast.LENGTH_LONG).show();
             return true;
         }
-
-        /*
-        if (id == R.id.action_Server) {
-
-            NetworkDriver network = NetworkDriver.getInstance();
-
-            try {
-                network.runServer();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            //Toast.makeText(this, serverString, Toast.LENGTH_LONG).show();
-            return true;
-        }
-
-        if (id == R.id.action_Client) {
-
-            final NetworkDriver network = NetworkDriver.getInstance();
-
-            try {
-                network.runClient();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return true;
-        }
-        */
         return super.onOptionsItemSelected(item);
     }
 
+
+    /*
+    private void initNetwork(final Context context)
+    {
+        Handler handler;
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Core.findServer(context);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String whoIAm = Core.whoAmI();
+
+                        Toast.makeText(context, whoIAm, Toast.LENGTH_LONG).show();
+
+                        if (whoIAm.equals("Server")) {
+                            Core.showAlertMessage(context,"Please discuss with your colleagues that you are the only server in the network! \n\n" +
+                                    "If not then press Find Server button!");
+                        }
+                    }
+                });
+            }
+        }).start();
+    }
+    */
+    /*
     private void showAlertMessage(final String aMessage) {
         AlertDialog.Builder alertbox =
                 new AlertDialog.Builder(this);
         alertbox.setMessage(aMessage);
-        alertbox.setNeutralButton("Ok",
+        alertbox.setPositiveButton("Ok",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0,
                                         int arg1) {
 // Ok kiválasztva
                     }
                 });
+        alertbox.setNegativeButton("Find Server",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0,
+                                        int arg1) {
+
+                        Core.closeNetworkConnections();
+                        Core.findServer(getApplicationContext());
+
+                        //Toast.makeText(getApplicationContext(), Core.whoAmI(), Toast.LENGTH_LONG).show();
+                    }
+                });
         alertbox.show();
     }
+    */
 }

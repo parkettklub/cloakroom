@@ -1,5 +1,11 @@
 package parkettklub.smartcheckroom;
 
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.os.StrictMode;
 import android.widget.Toast;
 
 import com.esotericsoftware.minlog.Log;
@@ -19,14 +25,45 @@ public class CheckroomApp extends SugarApp {
         super.onCreate();
         // Required initialization logic here!
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         SugarDb db = new SugarDb(this);
+        Core.fillDataBase();
 
+        Handler handler = new Handler(Looper.getMainLooper()) {
 
-        String networkString = Core.findServer(getApplicationContext());
+            @Override
+            public void handleMessage(Message msg) {
+                Bundle bb = msg.getData();
+                String str = bb.getString("NetworkState");
+                Toast.makeText(getApplicationContext(), str, Toast.LENGTH_LONG).show();
+                Core.networkState = str;
+            }
+        };
+
+        Core.findServer(getApplicationContext(), handler);
+
+        /*
+        String whoIAm = Core.whoAmI();
+
+        Toast.makeText(getApplicationContext(), whoIAm, Toast.LENGTH_LONG).show();
+        */
+        /*
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Core.findServer(getApplicationContext());
+
+                runOnUiThread(new Runnable() {
+        */
+        /*
+        Core.findServer(getApplicationContext());
         Log.set(LEVEL_DEBUG);
-        if(networkString.equals("Server")) {
+        if(Core.whoAmI().equals("Server")) {
             Core.fillDataBase();
         }
+        */
     }
 
 }
