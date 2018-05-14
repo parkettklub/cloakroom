@@ -44,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
         pagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
 
+        Toast.makeText(this, Core.whoAmI(), Toast.LENGTH_LONG).show();
+
+        /*
         SugarDb db = new SugarDb(this);
 
 
@@ -52,14 +55,6 @@ public class MainActivity extends AppCompatActivity {
         Log.set(LEVEL_DEBUG);
         if(networkString.equals("Server")) {
             Core.fillDataBase();
-        }
-        /*
-        else
-        {
-            if(networkString.equals("Client"))
-            {
-                Core.syncItemDataBase();
-            }
         }
         */
 

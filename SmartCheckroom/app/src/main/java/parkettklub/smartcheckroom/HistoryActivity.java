@@ -72,10 +72,16 @@ public class HistoryActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_stats) {
-            Intent i = new Intent();
-            //i.setClass(getActivity(), ItemCreateActivity.class);
-            i.setClass(this, StatisticsActivity.class);
-            startActivity(i);
+            if(Core.listAllTransactions().size() != 0) {
+                Intent i = new Intent();
+                //i.setClass(getActivity(), ItemCreateActivity.class);
+                i.setClass(this, StatisticsActivity.class);
+                startActivity(i);
+            }
+            else
+            {
+                Toast.makeText(this, "There are no transactions yet!", Toast.LENGTH_LONG).show();
+            }
             return true;
         }
 
