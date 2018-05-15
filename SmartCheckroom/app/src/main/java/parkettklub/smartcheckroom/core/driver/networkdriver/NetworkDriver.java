@@ -35,9 +35,11 @@ public class NetworkDriver implements NetworkDriverI {
     public void close() {
         if(null != server) {
             server.close();
+            server = null;
         }
         if(null != client) {
             client.close();
+            client = null;
         }
     }
 

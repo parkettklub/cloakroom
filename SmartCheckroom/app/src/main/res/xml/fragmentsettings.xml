@@ -1,0 +1,9 @@
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+    <header
+        android:fragment="parkettklub.smartcheckroom.SettingsActivity$FragmentSettingsBasic"
+        android:title="@string/title_settings">
+        <extra
+            android:name="extraKey"
+            android:value="extraValue" />
+    </header>
+</preference-headers>

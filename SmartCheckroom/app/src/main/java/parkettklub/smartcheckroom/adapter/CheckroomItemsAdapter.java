@@ -1,8 +1,10 @@
 package parkettklub.smartcheckroom.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import parkettklub.smartcheckroom.R;
+import parkettklub.smartcheckroom.core.Core;
 import parkettklub.smartcheckroom.core.Item;
 
 public class CheckroomItemsAdapter extends
@@ -38,13 +41,15 @@ public class CheckroomItemsAdapter extends
 
         final Item item = checkroomItems.get(position);
         if (item != null) {
-            holder.tvCheckroomNum.setText(item.getCheckroomNum().toString());
+
             if(item.getBarcode().equals(""))
             {
+                holder.tvCheckroomNum.setText(item.getCheckroomNum().toString()+"\n");
                 holder.tvCheckroomNum.setBackgroundColor(Color.WHITE);
             }
             else
             {
+                holder.tvCheckroomNum.setText(item.getCheckroomNum().toString()+"\nBarcode: "+item.getBarcode());
                 holder.tvCheckroomNum.setBackgroundColor(Color.RED);
             }
         }

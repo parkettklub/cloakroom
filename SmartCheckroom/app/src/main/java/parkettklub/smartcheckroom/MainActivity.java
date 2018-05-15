@@ -116,8 +116,32 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
+
         if (id == R.id.action_settings) {
-            Toast.makeText(this, "Settings selected", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "Settings selected", Toast.LENGTH_LONG).show();
+            Intent intentSettings = new Intent(MainActivity.this, SettingsActivity.class);
+            intentSettings.putExtra(SettingsActivity.EXTRA_SHOW_FRAGMENT,
+                    SettingsActivity.FragmentSettingsBasic.class.getName());
+            intentSettings.putExtra(SettingsActivity.EXTRA_NO_HEADERS, true);
+            startActivity(intentSettings);
+            return true;
+        }
+
+
+        if (id == R.id.action_about) {
+
+            AlertDialog.Builder alertbox =
+                    new AlertDialog.Builder(this);
+            alertbox.setMessage("Current version: "+Core.VERSION+"\n\n Powered by Parkett Klub.");
+            alertbox.setNeutralButton("Ok",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface arg0,
+                                            int arg1) {
+// Ok kiválasztva
+                        }
+                    });
+            alertbox.show();
+            //Toast.makeText(this, "Settings selected", Toast.LENGTH_LONG).show();
             return true;
         }
         return super.onOptionsItemSelected(item);

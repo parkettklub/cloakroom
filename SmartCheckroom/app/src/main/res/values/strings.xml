@@ -13,7 +13,7 @@
     <string name="btnAdd">Add</string>
     <string name="btnCancel">Cancel</string>
     <string name="coatNum">Coats</string>
-    <string name="title_activity_item_handling"> </string>
+    <string name="title_activity_item_handling">Manage checkroom item</string>
     <string name="btnUpdate">Update</string>
     <string name="action_history">History</string>
 
@@ -101,5 +101,7 @@
     <string name="action_statistics">Stats</string>
     <string name="action_checkroomState">CheckroomState</string>
     <string name="action_whoAmI">WhoAmI?</string>
+    <string name="action_about">About</string>
+    <string name="title_settings">Settings</string>
 
 </resources>

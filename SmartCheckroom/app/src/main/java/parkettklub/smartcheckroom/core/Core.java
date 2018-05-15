@@ -28,6 +28,8 @@ public class Core {
     private static final DataBaseDriverI DATA_BASE_DRIVER = ManageDB.getInstance();
     private static final NetworkDriver NETWORK_DRIVER = NetworkDriver.getInstance();
 
+    public static final String VERSION = "1.0.0";
+
     public static String networkState = new String();
 
     public static String barcodeNumber;
@@ -43,6 +45,7 @@ public class Core {
     private static Item coreItem = new Item();
 
     public static String[] values;
+    public static long itemOffset;
 
     //public static CheckroomItem item;
 
@@ -260,11 +263,19 @@ public class Core {
             @Override
             public void run() {
                 try {
-                    NETWORK_DRIVER.findServer(context);
+                    String networkState;
+                    if(NETWORK_DRIVER.findServer(context))
+                    {
+                        networkState = "Client";
+                    }
+                    else
+                    {
+                        networkState = "Server";
+                    }
 
                     Message message = Message.obtain(); //get null message
                     Bundle bundle = new Bundle();
-                    bundle.putString("NetworkState", whoAmI());
+                    bundle.putString("NetworkState", networkState);
                     message.setData(bundle);
                     //use the handler to send message
                     handler.sendMessage(message);

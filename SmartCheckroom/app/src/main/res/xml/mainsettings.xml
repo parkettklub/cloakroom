@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/title_settings">
+        <EditTextPreference
+            android:defaultValue="1"
+            android:key="item_offset"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:numeric="integer"
+            android:title="Offset to the next Checkroom Number" />
+    </PreferenceCategory>
+</PreferenceScreen>

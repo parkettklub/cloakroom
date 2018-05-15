@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import parkettklub.smartcheckroom.core.Core;
 import parkettklub.smartcheckroom.core.Item;
 import parkettklub.smartcheckroom.core.Transaction;
 
@@ -127,8 +128,9 @@ public class ManageDB implements DataBaseDriverI {
             }
         }
 
-        // FIXME: second free
-        ids.remove(0);
+        for (int i = 0; i < Core.itemOffset; i++) {
+            ids.remove(0);
+        }
 
         return ids;
     }
